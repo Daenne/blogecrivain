@@ -13,14 +13,9 @@
                 else
                 {
                     $begin = substr($article['content'], 0, 200);
-
                     $begin = substr($begin, 0, strrpos($begin, ' ')) . '...';
-
                     $content = $begin;
                 } ?>
-
-                <?= $content ?>
-
                 <h4>
                     <?=$article['title']?>
                 </h4>

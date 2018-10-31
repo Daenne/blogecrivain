@@ -6,7 +6,7 @@ class Connexion
     public function getDb(){
         try
         {
-            $db = new PDO('mysql:host=localhost;dbname=bddblogecrivain', 'root', 'root');
+            $db = new PDO('mysql:host=localhost;dbname=bddblogecrivain', 'root', '');
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db = $db;
             return $this->db;

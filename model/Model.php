@@ -9,7 +9,7 @@ class Model extends Connexion {
         $this->db = $this->getDb();
     }
 
-    public function getEpisodes()
+    public function getArticles()
     {
         $sql = 'SELECT * FROM articles ORDER BY id DESC';
         $request = $this->db->query($sql);
@@ -17,11 +17,18 @@ class Model extends Connexion {
         return $request;
     }
 
-    public function getEpisode($id){
+    public function getArticle($id){
         $request = $this->db->prepare('SELECT * FROM articles WHERE id = :id');
         $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $request->execute();
         return $request;
     }
+
+    public function getComments($id) {
+    $comments = $this->db->prepare('SELECT id, author, content, DATE_FORMAT(date_create, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date_fr FROM comments WHERE articleid = ? ORDER BY date_create DESC');
+    $comments->execute(array($id));
+    return $comments;
+
+}
 
 }
