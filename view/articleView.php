@@ -5,16 +5,17 @@
 <p>Posté le <?= $article['date_create']; ?>
 <p><?= nl2br(strip_tags($article['content'])); ?></p>
 	<h2>Commentaires : </h2>
-	<? php
-	while ($comments)
-	{
+	<?php
+	while ($comment = $comments->fetch()){
+	//for ($i=0; $i < $comments.length ; $i++) { 
 	?>
-	    <p><strong><?= htmlspecialchars($comments['author']) ?></strong> le <?= $comments['comment_date_fr'] ?></p>
-        <p><?= nl2br(htmlspecialchars($comments['content'])) ?></p>
+	    <p><strong><?= htmlspecialchars($comment['author']) ?></strong> le <?= $comment['comment_date_fr'] ?></p>
+        <p><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
 	<?php
 	}
 	?>
-<form action="articleView.php?id=<?= $article['id']; ?>" methode="post">
+	<h2>Ajouter un commentaire : </h2>
+	<form action="index.php?action=addComment&amp;id=<?= $article['id']; ?>" methode="post">
         <p>
           <label for="author">Pseudo : </label>
         </p>
@@ -22,13 +23,11 @@
         <p>
           <label for="comment">Commentaire : </label>
         </p>
-          <textarea name="comment" id="comment" value="<?php if(isset($comment)) echo $comment ?>"></textarea>
+          <textarea name="content" id="content" value="<?php if(isset($content)) echo $content ?>"></textarea>
         <p>
           <button type="submit">Envoyer</button>
         </p>
       </form>
-
-</div>
 </article>
 
 

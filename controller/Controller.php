@@ -27,13 +27,26 @@ class Controller
     {
         $article = $this->modelArticle->getArticle($id);
         $article = $article->fetch();
+        $comments = $this->getComments($id);
         require('./view/articleView.php');
     }
 
-    public function getComments($articleid)
+    public function getComments($id)
     {
-        $comments = $this->modelArticle->getComments($_GET['articleid']);
-        $comments = $comments->fetch();
-        require('./view/articleView.php');
+        $comments = $this->modelArticle->getComments($_GET['id']);
+        return $comments;
     }
+
+    public function addComment($articleid, $author, $content)
+    {
+    $affectedLines = postComment($articleid, $author, $content);
+
+    if ($affectedLines === false) {
+        throw new Exception('Impossible d\'ajouter le commentaire !');
+    }
+    else {
+        header('Location: index.php?action=article&id=' . $articleid);
+    }
+
+}
 }

@@ -25,10 +25,15 @@ class Model extends Connexion {
     }
 
     public function getComments($id) {
-    $comments = $this->db->prepare('SELECT id, author, content, DATE_FORMAT(date_create, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date_fr FROM comments WHERE articleid = ? ORDER BY date_create DESC');
-    $comments->execute(array($id));
-    return $comments;
+        $comments = $this->db->prepare('SELECT id, articleid, author, content, DATE_FORMAT(date_create, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date_fr FROM comments WHERE articleid = ? ORDER BY date_create DESC');
+        $comments->execute(array($id));
+        return $comments;
+    }
 
-}
+    public function postComment($articleid, $author, $content) {
+        $comments =$this->db->prepare('INSERT INTO comments(articleid, author, content, date_create) VALUES (?, ?, ?, NOW())');
+        $affectedLines = $comments->execute(array($articleid, $author, $content));
+        return $affectedLines;
 
+    }
 }

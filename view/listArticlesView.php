@@ -16,9 +16,9 @@
                     $begin = substr($begin, 0, strrpos($begin, ' ')) . '...';
                     $content = $begin;
                 } ?>
-                <h4>
+                <h3>
                     <?=$article['title']?>
-                </h4>
+                </h3>
                 <p>Posté le <?= $article['date_create']; ?>
                 <p><?= nl2br($content); ?></p>
                 <a href="index.php?action=article&id=<?= $article['id']; ?>">Lire la suite</a>
