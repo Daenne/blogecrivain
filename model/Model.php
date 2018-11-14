@@ -31,9 +31,8 @@ class Model extends Connexion {
     }
 
     public function postComment($articleid, $author, $content) {
-        $comments =$this->db->prepare('INSERT INTO comments(articleid, author, content, date_create) VALUES (?, ?, ?, NOW())');
+        $comments = $this->db->prepare('INSERT INTO comments(articleid, author, content, date_create, date_update) VALUES (?, ?, ?, NOW(), NOW())');
         $affectedLines = $comments->execute(array($articleid, $author, $content));
         return $affectedLines;
-
     }
 }

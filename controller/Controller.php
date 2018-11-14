@@ -17,6 +17,12 @@ class Controller
         require('./view/indexView.php');
     }
 
+    public function getIndexAdmin()
+    {
+        $articleslist = $this->modelArticle->getArticles();
+        require('.view/adminView.php');
+    }
+
     public function getArticles()
     {
         $articlesList = $this->modelArticle->getArticles();
@@ -39,7 +45,7 @@ class Controller
 
     public function addComment($articleid, $author, $content)
     {
-    $affectedLines = postComment($articleid, $author, $content);
+    $affectedLines = $this->modelArticle->postComment($articleid, $author, $content);
 
     if ($affectedLines === false) {
         throw new Exception('Impossible d\'ajouter le commentaire !');

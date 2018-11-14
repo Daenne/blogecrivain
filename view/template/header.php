@@ -9,5 +9,5 @@
 			<li><a href="./view/contactView.php">Contact</a></li>
 		</ul>
 	</nav>
-	<p><a href="login.php">Accéder à l'espace d'administration</a></p>
+	<p><a href="./admin/view/adminView.php">Accéder à l'espace d'administration</a></p>
 </header>

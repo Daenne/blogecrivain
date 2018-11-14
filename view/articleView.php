@@ -15,15 +15,16 @@
 	}
 	?>
 	<h2>Ajouter un commentaire : </h2>
-	<form action="index.php?action=addComment&amp;id=<?= $article['id']; ?>" methode="post">
+
+	<form action="index.php?action=addComment&amp;id=<?= $article['id']; ?>" method ="post">
         <p>
           <label for="author">Pseudo : </label>
         </p>
-          <input type="text" name="author" id="author" value="<?php if(isset($author)) echo $author ?>" />
+          <input type="text" name="author" id="author" />
         <p>
-          <label for="comment">Commentaire : </label>
+          <label for="content">Commentaire : </label>
         </p>
-          <textarea name="content" id="content" value="<?php if(isset($content)) echo $content ?>"></textarea>
+          <textarea name="content" id="content"></textarea>
         <p>
           <button type="submit">Envoyer</button>
         </p>
