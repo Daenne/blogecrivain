@@ -1,1 +1,0 @@
-<?php echo crypt('Projet4administrati0n.'); ?>

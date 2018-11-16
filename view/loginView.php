@@ -5,7 +5,7 @@
     
         <input type="text" placeholder="Votre pseudo" name="pseudo" />
         <input type="password" placeholder="Votre mot de passe" name="password" />
-        <input type="submit" value="Valider" />
+        <input type="submit" name="login" value="Valider" />
     
     </form>
     <p>Cette page est réservée à l'administration du blog</p>

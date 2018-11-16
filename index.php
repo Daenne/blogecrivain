@@ -4,11 +4,18 @@ require_once('controller/Controller.php');
 
 $controller = new Controller();
 
+          if (isset($_SESSION['id']) AND isset($_SESSION['pseudo']))
+          {
+            echo 'Bonjour ' . $_SESSION['pseudo'];
+          }
+
+
 try { // On essaie de faire des choses
     if (isset($_GET['action'])) {
         //if ($_GET['action'] == 'blog') {
         //    $controller->getIndex();
-        //}
+        //}        
+
         if ($_GET['action'] == 'addComment') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
                 if (!empty($_POST['author']) && !empty($_POST['content'])) {
@@ -24,21 +31,63 @@ try { // On essaie de faire des choses
             }
         }
         elseif ($_GET['action'] == 'article') {
-            if (isset($_GET['id']) && $_GET['id'] > 0) {
+              if (isset($_GET['id']) && $_GET['id'] > 0) {
+                  $controller->getArticle($_GET['id']);
+              }
+              else {
+                  throw new Exception('Aucun identifiant de billet envoyé');
+              }
+          }
+        else if ($_GET['action'] == 'login') {
+
+
+          //$correctPseudo = $controller->idAdmin();
+          //$correctPassWord = $controller->passwdAdmin();
+
+        	//if (((isset($_POST['password'])) AND (($_POST['password']) ==  $correctPassWord)) AND ((isset($_POST['pseudo'])) AND (($_POST['pseudo']) == $correctPseudo))) {
+        	$controller->getIndexAdmin();
+
+            if($_GET['action'] == 'addArticle'){
+
+              if (isset($_GET['id']) && $_GET['id'] > 0) {
+
+                if (!empty($_POST['title']) && !empty($_POST['content'])) {
+
+                  $controller->addArticle($_GET['id'], $_POST['title'], $_POST['content']);
+                }else {
+
+                  throw new Exception('Tous les champs ne sont pas remplis !');
+                }
+              }else {
+
+                    throw new Exception('Aucun identifiant de billet envoyé');
+              }
+            }
+            elseif($_GET['action'] == 'updateArticle'){
+
+              if (isset($_GET['id']) && $_GET['id'] > 0) {
+
                 $controller->getArticle($_GET['id']);
-            }
-            else {
+              }else {
+
                 throw new Exception('Aucun identifiant de billet envoyé');
+              }
             }
+            elseif($_GET['action'] == 'deleteArticle'){
+
+              if (isset($_GET['id']) && $_GET['id'] > 0) {
+
+                $controller->getArticle($_GET['id']);
+              }else {
+
+                throw new Exception('Aucun identifiant de billet envoyé');
+              }
+            }
+        	//}
+        	//else {
+        	//	throw new Exception('Pseudo et/ou mot de passe incorrect(s)');
+        	//}
         }
-        //else if ($_GET['action'] == 'login') {
-        //	if ((isset($_POST['password'])) AND (($_POST['password']) ==  "kangourou")) AND (isset($_POST['pseudo'])) AND (($_POST['pseudo']) == "admin"));
-        //		$controller->getIndexAdmin();
-        //	}
-        //	else {
-        //		throw new Exception('Pseudo et/ou mot de passe incorrect(s)');
-        //	}
-        //}
     }
     else {
         $controller->getIndex();

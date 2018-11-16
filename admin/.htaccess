@@ -1,4 +1,4 @@
 AuthName "Page d'administration protégée"
 AuthType Basic
-AuthUserFile "/homepages/41/d734198415/htdocs/Projet4/admin/.htpasswd"
+AuthUserFile "/wamp/www/projet4/blogecrivain/blogecrivain/admin/.htpasswd"
 Require valid-user

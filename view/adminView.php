@@ -7,7 +7,7 @@
 	</ul>
 </nav>
 
-<form action="index.php?action=addArticle; ?>" method ="post">
+<form action="./index.php?action=blog" method ="post">
         <p>
           <label for="title">Titre : </label>
         </p>
@@ -17,7 +17,7 @@
         </p>
           <textarea name="content" id="content"></textarea>
         <p>
-          <button type="submit">Ajouter</button>
+          <button type="submit" name="addArticle">Ajouter</button>
         </p>
       </form>
 
