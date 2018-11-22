@@ -23,16 +23,21 @@ class Controller
         require('./view/adminView.php');
     }
 
-    public function getAdminConnexion ($pseudo, $password) {
+    public function getLogin(){ 
+        require('./view/loginView.php');
+    }
+
+    public function getAdminConnexion ($result) {
         $result = $this->modelArticle->adminConnexion($pseudo, $password);
+        $isPseudoCorrect = password_verify($_POST['pseudo'], $result['pseudo']);
         $isPasswordCorrect = password_verify($_POST['password'], $result['password']);
-        if (!$result)
+                        if (!$result)
         {
             echo 'Mauvais identifiant ou mot de passe !';
         }
         else
         {
-            if ($isPasswordCorrect) {
+            if (($isPasswordCorrect) AND ($isPseudoCorrect)) {
                 session_start();
                 //$_SESSION['id'] = $result['id'];
                 $_SESSION['pseudo'] = $pseudo;
@@ -40,9 +45,11 @@ class Controller
             }
             else {
                 echo 'Mauvais identifiant ou mot de passe !';
+
             }
 
         }
+
 
     }
 
@@ -68,19 +75,20 @@ class Controller
         $article = $this->modelArticle->getArticle($id);
         $article = $article->fetch();
         $comments = $this->getComments($id);
-        $updateArticle = $this->changeArticle($id);
-        $deleteArticle = $this->stopArticle($id);
+        //$updateArticle = $this->changeArticle($id);
+        //$deleteArticle = $this->stopArticle($id);
         require('./view/articleView.php');
     }
 
     //CONTROL SUR LES ACTIONS ARTICLE
 
-    public function addArticle($id, $title, $content) {
-        $newArticle = $this->modelArticle->postArticle($id, $title, $content);
+    public function addArticle($title, $content) {
+        $newArticle = $this->modelArticle->postArticle($title, $content);
         if ($newArticle === false) {
             throw new Exception('Impossible d\'ajouter le article !');
         }
         else {
+            echo "coucou";
             header('Location: index.php?action=blog');
         }
     }

@@ -12,9 +12,9 @@ class Model extends Connexion {
     //METHODES POUR CHERCHER ID ET MDP
 
     public function adminConnexion ($pseudo, $password){
-        $request = $this->$db->prepare('SELECT pseudo, password FROM members WHERE id = 1');
-        $request->execute(array($pseudo, $password));
-        $result = $request->fetch();
+        $result = $this->$db->prepare('SELECT pseudo, password FROM members WHERE id = 1');
+        $result->execute(array($pseudo, $password));
+        //$result = $request->fetch();
 
         return $result;
 
@@ -54,9 +54,9 @@ class Model extends Connexion {
     //METHODES QUI INFLUENT SUR UN ARTICLE
 
     //Méthode pour ajouter un article
-    public function postArticle($id, $title, $content){
-        $article = $this->db->prepare('INSERT INTO articles(id, title, content, date_create, date_update) VALUES (?, ?, ?, NOW(), NOW())');
-        $newArticle = $article->execute(array($id, $title, $content));
+    public function postArticle($title, $content){
+        $article = $this->db->prepare('INSERT INTO articles(title, content, date_create, date_update) VALUES (?, ?, NOW(), NOW())');
+        $newArticle = $article->execute(array($title, $content));
         return $newArticle;
     }
 

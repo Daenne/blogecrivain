@@ -3,11 +3,9 @@
 	<p>Roman de jean Forteroche</p>
 	<nav>
 		<ul>
-			<li><a href="./view/indexView.php">Accueil</a></li>
-			<li><a href="index.php?action=blog">Articles</a></li>
-			<li><a href="./view/aproposView.php">A propos</a></li>
-			<li><a href="./view/contactView.php">Contact</a></li>
+			<li><a href="index.php?action=blog">Accueil</a></li>
+			<li><a href="index.php?action=articles">Articles</a></li>
 		</ul>
 	</nav>
-	<p><a href="./view/loginView.php">Accéder à l'espace d'administration</a></p>
+	<p><a href="index.php?action=login">Accéder à l'espace d'administration</a></p>
 </header>
