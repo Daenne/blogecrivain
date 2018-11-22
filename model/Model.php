@@ -45,6 +45,7 @@ class Model extends Connexion {
     }
 
     public function getArticle($id){
+        echo "coucou model 1";
         $request = $this->db->prepare('SELECT * FROM articles WHERE id = :id');
         $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $request->execute();
@@ -61,9 +62,11 @@ class Model extends Connexion {
     }
 
     //Méthode pour modifier un article
-    public function updateArticle ($id) {
-        $article = $this->db->prepare('UPDATE articles SET title = ?, content = ?, date_update = NOW() WHERE id = ?');
-        $updateArticle = $article->execute(array($id));
+    public function updateArticle ($id, $title, $content) {
+        echo "coucou model 2";
+        $request = $this->db->prepare('UPDATE articles SET title = ?, content = ?, date_update = NOW() WHERE id = ?');
+        $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $updateArticle = $request->execute(array($id, $title, $content));
         return $updateArticle;
     }
 
@@ -73,6 +76,7 @@ class Model extends Connexion {
         $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $deleteArticle = $request->execute(array($id));
         return $deleteArticle;
+        //header('Location : index.php?action=admin');
     }
 
     //METHODES POUR LES COMMENTAIRES

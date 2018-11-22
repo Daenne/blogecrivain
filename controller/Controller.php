@@ -67,7 +67,7 @@ class Controller
     public function getArticles()
     {
         $articlesList = $this->modelArticle->getArticles();
-        $deleteArticle = $this->stopArticle($id);
+        //$deleteArticle = $this->stopArticle($id);
         require('./view/listArticlesView.php');
     }
 
@@ -94,25 +94,26 @@ class Controller
         }
     }
 
-    public function changeArticle ($id){
-        $updateArticle = $this->modelArticle->updateArticle($id);
-        return $updateArticle;
+    public function showArticle($id) {
+        $initialArticle = $this->modelArticle->getArticle($id);
+        $initialArticle = $initialArticle->fetch();
+        require('./view/adminArticleUpdateView.php');
     }
 
-    public function endArticle ($id){
-        $deleteArticle = $this->modelArticle->deleteArticle($id);
-        return $deleteArticle;
+    public function changeArticle ($id, $title, $content) {
+        $updateArticle = $this->modelArticle->updateArticle($id, $title, $content);
+        header('Location: index.php?action=admin');
     }
 
     public function stopArticle ($id){
-
-        if(($this->endArticle($id)) === false){
-            throw new Exception('Impossible de supprimer le article');
-        }
-        else {
+        $deleteArticle = $this->modelArticle->deleteArticle($id);
+        ///if(($this->endArticle($id)) === false){
+         //   throw new Exception('Impossible de supprimer le article');
+        //}
+        //else {
             echo "coucou controller";
             header('Location : index.php?action=admin');
-        }
+        //}
         //return $deleteArticle;
     }
 

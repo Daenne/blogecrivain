@@ -95,7 +95,20 @@ elseif($_GET['action'] == 'updateArticle')
         {
           if (isset($_GET['id']) && $_GET['id'] > 0) 
           {
-            $controller->getArticle($id);
+            if(isset($_POST['title'], $_POST['content'])){
+              if(!empty($_POST['title']) AND !empty($_POST['content']))
+              {
+                echo "coucou routeur";
+                $controller->changeArticle($_GET['id'], $_POST['title'], $_POST['content']);
+              }
+              else {
+                throw new Exception("Veuillez remplir tous les champs");
+              }
+            }else 
+            {
+              $controller->showArticle($_GET['id']);
+                 
+            }
           }
           else {
             throw new Exception('Aucun identifiant de billet envoyé');
@@ -105,7 +118,7 @@ elseif($_GET['action'] == 'deleteArticle')
         {
           if (isset($_GET['id']) && $_GET['id'] > 0) 
           {
-            echo "coucou routeur";
+            //echo "coucou routeur";
             $controller->stopArticle($_GET['id']);
             //$controller->getIndexAdmin();
           }
@@ -113,6 +126,8 @@ elseif($_GET['action'] == 'deleteArticle')
             throw new Exception('Aucun identifiant de billet envoyé');
           }
         }
+
+
 
 
       //Chemin pour s'authentifier PAS VALIDE POUR LE MOMENT
