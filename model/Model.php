@@ -69,8 +69,9 @@ class Model extends Connexion {
 
     //Méthode pour supprimer un article
     public function deleteArticle ($id) {
-        $article = $this->db->prepare('DELETE FROM articles WHERE id = ?');
-        $deleteArticle = $article->execute(array($id));
+        $request = $this->db->prepare('DELETE FROM articles WHERE id = ?');
+        $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $deleteArticle = $request->execute(array($id));
         return $deleteArticle;
     }
 

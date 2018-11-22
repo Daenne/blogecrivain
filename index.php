@@ -76,10 +76,9 @@ try {
         }
       }
 
-
+//EN TRAVAUX
 
 elseif($_GET['action'] == 'admin'){
-          echo'coucou action admin';
           $controller->getIndexAdmin();
         }  
 elseif($_GET['action'] == 'addArticle')
@@ -90,6 +89,28 @@ elseif($_GET['action'] == 'addArticle')
             }
           else {
               throw new Exception('Tous les champs ne sont pas remplis !');
+          }
+        }
+elseif($_GET['action'] == 'updateArticle')
+        {
+          if (isset($_GET['id']) && $_GET['id'] > 0) 
+          {
+            $controller->getArticle($id);
+          }
+          else {
+            throw new Exception('Aucun identifiant de billet envoyé');
+          }
+        }
+elseif($_GET['action'] == 'deleteArticle')
+        {
+          if (isset($_GET['id']) && $_GET['id'] > 0) 
+          {
+            echo "coucou routeur";
+            $controller->stopArticle($_GET['id']);
+            //$controller->getIndexAdmin();
+          }
+          else {
+            throw new Exception('Aucun identifiant de billet envoyé');
           }
         }
 
