@@ -27,40 +27,38 @@ class Controller
         require('./view/loginView.php');
     }
 
-    public function getAdminConnexion ($result) {
+    public function getAdminConnexion ($pseudo, $password) {
+        $articlesList = $this->modelArticle->getArticles();
         $result = $this->modelArticle->adminConnexion($pseudo, $password);
-        $isPseudoCorrect = password_verify($_POST['pseudo'], $result['pseudo']);
-        $isPasswordCorrect = password_verify($_POST['password'], $result['password']);
-                        if (!$result)
-        {
-            echo 'Mauvais identifiant ou mot de passe !';
+
+        $isPseudoCorrect = strcmp($pseudo, $result['pseudo']);
+
+        $isPasswordCorrect = strcmp($password, $result['password']);
+
+        if (($isPseudoCorrect == 0) AND ($isPasswordCorrect == 0)) {
+            session_start();
+            $_SESSION['pseudo'] = $pseudo;
+            require('./view/adminView.php');
         }
-        else
-        {
-            if (($isPasswordCorrect) AND ($isPseudoCorrect)) {
-                session_start();
-                //$_SESSION['id'] = $result['id'];
-                $_SESSION['pseudo'] = $pseudo;
-                echo 'Vous êtes connecté !';
-            }
-            else {
-                echo 'Mauvais identifiant ou mot de passe !';
-
-            }
-
+        else {
+            throw new Exception('Pseudo et/ou mot de passe incorrect(s)');
         }
 
-
+        //require
+        //$isPseudoCorrect = password_verify($_POST['pseudo'], $result['pseudo']);
+        //$isPasswordCorrect = password_verify($_POST['password'], $result['password']);
     }
 
-    //public function idAdmin(){
-    //    $admin = $this->modelArticle->getAdminId();
-    //    return $admin;
+    //public function idAdmin($pseudo){
+    //    $pseudo = $this->modelArticle->getAdminId($pseudo);
+    //    $isPseudoCorrect = strcmp($_POST['pseudo'], $pseudo);
+    //    return $isPseudoCorrect;
     //}
 
-    //public function passwdAdmin (){
-    //    $adminPassWord = $this->modelArticle->getAdminPW();
-    //    return $adminPassWord;
+    //public function passwdAdmin ($password){
+    //    $password = $this->modelArticle->getAdminPW($password);
+    //    $isPasswordCorrect = password_verify($_POST['password'], $password);
+    //    return $isPasswordCorrect;
 
     //}
 
@@ -112,7 +110,8 @@ class Controller
         //}
         //else {
             echo "coucou controller";
-            header('Location : index.php?action=admin');
+            //require('./view/adminView.php');
+            //header('Location : index.php?action=admin');
         //}
         //return $deleteArticle;
     }

@@ -1,7 +1,7 @@
 <?php include('/template/header.php'); ?>
 
     <p>Veuillez entrer le mot de passe pour accéder à l'interface d'administration</p>
-    <form action="index.php?action=admin" method="post">
+    <form action="index.php?action=login" method="post">
     
         <input type="text" placeholder="Votre pseudo" name="pseudo" />
         <input type="password" placeholder="Votre mot de passe" name="password" />

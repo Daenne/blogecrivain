@@ -9,17 +9,13 @@ try {
 
       if ($_GET['action'] == 'login')
       {
+
         if ((isset($_POST['pseudo'])) AND (isset($_POST['password']))) 
         {
-          if ((($_POST['pseudo']) == 'admin') AND (($_POST['password']) == 'Projet4administrati0n.')) 
-          {
-            $controller->getIndexAdmin();
-          }
-          else 
-          { 
-            throw new Exception('Pseudo et/ou mot de passe incorrect(s)');
-            $controller->getLogin();
-          }
+          $controller->getAdminConnexion(($_POST['pseudo']), ($_POST['password']));
+          //$result = $controller->getAdminConnexion(($_POST['pseudo']), ($_POST['password']));
+          //$isPseudoCorrect = strcmp($_POST['pseudo'], $result['pseudo']);
+          //$isPasswordCorrect = password_verify($_POST['password'], $result['password']);
         }
         else 
         {
@@ -114,18 +110,26 @@ elseif($_GET['action'] == 'updateArticle')
             throw new Exception('Aucun identifiant de billet envoyé');
           }
         }
-elseif($_GET['action'] == 'deleteArticle')
-        {
-          if (isset($_GET['id']) && $_GET['id'] > 0) 
-          {
-            //echo "coucou routeur";
-            $controller->stopArticle($_GET['id']);
+elseif (($_GET['action'] == 'deleteArticle') AND ($_GET['id'])) {
+        echo "coucou action delete + id";
+        //die();
+        $controller->stopArticle($_GET['id']);
+        header('Location : index.php?action=admin');
+}
+//elseif($_GET['action'] == 'deleteArticle')
+        //{
+        //  if (isset($_GET['id']) && $_GET['id'] > 0) 
+        //  {
+         //   echo "coucou routeur";
+        //    $controller->stopArticle($_GET['id']);
             //$controller->getIndexAdmin();
-          }
-          else {
-            throw new Exception('Aucun identifiant de billet envoyé');
-          }
-        }
+        //  }
+         // else {
+         //   throw new Exception('Aucun identifiant de billet envoyé');
+         // }
+        //}
+
+        
 
 
 

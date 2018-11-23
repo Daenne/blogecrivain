@@ -12,27 +12,27 @@ class Model extends Connexion {
     //METHODES POUR CHERCHER ID ET MDP
 
     public function adminConnexion ($pseudo, $password){
-        $result = $this->$db->prepare('SELECT pseudo, password FROM members WHERE id = 1');
+        $result = $this->db->prepare('SELECT pseudo, password FROM members WHERE id = 1');
         $result->execute(array($pseudo, $password));
-        //$result = $request->fetch();
+        $result = $result->fetch();
 
         return $result;
 
     }
 
-    //public function getAdminId(){
-    //    $request = $this->db->prepare('SELECT pseudo FROM members WHERE id = 1');
-    //    $request->execute();
-    //    return $request;
+    public function getAdminId($pseudo){
+        $request = $this->db->prepare('SELECT pseudo FROM members WHERE id = 1');
+        $request->execute(array($pseudo));
+        return $request;
 
-    //}
+    }
 
-    //public function getAdminPW(){
-    //    $request = $this->db->prepare('SELECT password FROM members WHERE id = 1');
-    //    $request->execute();
-    //    return $request;
+    public function getAdminPW($password){
+        $request = $this->db->prepare('SELECT password FROM members WHERE id = 1');
+        $request->execute(array($password));
+        return $request;
 
-    //}
+    }
 
     //METHODES AFFICHAGE ARTICLE(s)
 
