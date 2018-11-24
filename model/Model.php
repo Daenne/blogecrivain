@@ -63,7 +63,7 @@ class Model extends Connexion {
 
     //Méthode pour modifier un article
     public function updateArticle ($id, $title, $content) {
-        echo "coucou model 2";
+        echo "coucou model modifier ";
         $request = $this->db->prepare('UPDATE articles SET title = ?, content = ?, date_update = NOW() WHERE id = ?');
         $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $updateArticle = $request->execute(array($id, $title, $content));
@@ -72,11 +72,11 @@ class Model extends Connexion {
 
     //Méthode pour supprimer un article
     public function deleteArticle ($id) {
-        $request = $this->db->prepare('DELETE FROM articles WHERE id = ?');
+        $request = $this->db->prepare('DELETE FROM articles WHERE id = :id');
         $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
-        $deleteArticle = $request->execute(array($id));
+        $deleteArticle = $request->execute(//array($id)
+    );
         return $deleteArticle;
-        //header('Location : index.php?action=admin');
     }
 
     //METHODES POUR LES COMMENTAIRES

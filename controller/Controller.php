@@ -100,16 +100,28 @@ class Controller
 
     public function changeArticle ($id, $title, $content) {
         $updateArticle = $this->modelArticle->updateArticle($id, $title, $content);
-        header('Location: index.php?action=admin');
+        echo "coucou controller";
+        if ($updateArticle === false) {
+            throw new Exception('Impossible de modifier le article !');
+        }
+        else {
+            header('Location: index.php?action=admin');
+        }    
     }
 
     public function stopArticle ($id){
         $deleteArticle = $this->modelArticle->deleteArticle($id);
+        echo "coucou controller";
+        if ($deleteArticle == false) {
+            throw new Exception('Impossible de supprimer ce commentaire');
+        } else {
+            header('location: index.php?action=admin');
+        }
         ///if(($this->endArticle($id)) === false){
          //   throw new Exception('Impossible de supprimer le article');
         //}
         //else {
-            echo "coucou controller";
+            
             //require('./view/adminView.php');
             //header('Location : index.php?action=admin');
         //}

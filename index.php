@@ -110,24 +110,38 @@ elseif($_GET['action'] == 'updateArticle')
             throw new Exception('Aucun identifiant de billet envoyé');
           }
         }
-elseif (($_GET['action'] == 'deleteArticle') AND ($_GET['id'])) {
-        echo "coucou action delete + id";
+//elseif ($_GET['action'] == 'deleteArticle') {
+        
+//        echo "coucou action delete + id";
         //die();
-        $controller->stopArticle($_GET['id']);
-        header('Location : index.php?action=admin');
-}
-//elseif($_GET['action'] == 'deleteArticle')
-        //{
-        //  if (isset($_GET['id']) && $_GET['id'] > 0) 
-        //  {
-         //   echo "coucou routeur";
-        //    $controller->stopArticle($_GET['id']);
+//        $controller->stopArticle($_GET['id']);
+ //       header('Location : index.php?action=admin');
+//}
+
+      elseif ($request == "deletePost") {
+        if (array_key_exists("authentification" , $_SESSION) && $_SESSION["authentification"]) {
+          if (!empty($_GET["id"]) && is_numeric($_GET["id"])) {
+            $postsAdminController->deletePost();
+          } else {
+            throw new Exception("l'identifiant du post est incorrect, suppression impossible");
+          }
+        } else {
+            throw new Exception("Vous n'avez pas l'autorisation d'accès");
+        } 
+      }
+
+elseif($_GET['action'] == 'deleteArticle')
+        {
+          if (isset($_GET['id']) && $_GET['id'] > 0) 
+          {
+            echo "coucou routeur";
+            $controller->stopArticle($_GET['id']);
             //$controller->getIndexAdmin();
-        //  }
-         // else {
-         //   throw new Exception('Aucun identifiant de billet envoyé');
-         // }
-        //}
+          }
+          else {
+            throw new Exception('Aucun identifiant de billet envoyé');
+          }
+        }
 
         
 
