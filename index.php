@@ -77,58 +77,49 @@ try {
 elseif($_GET['action'] == 'admin'){
           $controller->getIndexAdmin();
         }  
-elseif($_GET['action'] == 'addArticle')
+elseif($_GET['action'] == 'writeArticle')
         {
             if (!empty($_POST['title']) && !empty($_POST['content'])) 
             {
-              $controller->addArticle($_POST['title'], $_POST['content']);
+              //if(isset($_GET["id"]) && $_GET["id"] > 0)
+              //{
+                echo "coucou change article";
+                $controller->changeArticle($_GET["id"], $_POST["title"], $_POST["content"]);
+              //}
+              //elseif (empty($_GET['id']))
+              //{
+              //  $controller->addArticle($_POST['title'], $_POST['content']);
+              //}
+             // else
+              //{
+                //$controller->addNewArticle($_POST['title'], $_POST['content']);
+                //throw new Exception("Impossible d'écrire ou de modifier l'article");
+              //}
             }
-          else {
+            else {
               throw new Exception('Tous les champs ne sont pas remplis !');
-          }
+            }
         }
+
+elseif ($_GET['action'] == 'addArticle') {
+  if (!empty($_POST['title']) && !empty($_POST['content'])) {
+    $controller->addArticle($_POST['title'], $_POST['content']);
+  }
+  else{
+    throw new Exception("Veuillez remplir tous les champs");
+  }
+}
+
 elseif($_GET['action'] == 'updateArticle')
         {
           if (isset($_GET['id']) && $_GET['id'] > 0) 
           {
-            if(isset($_POST['title'], $_POST['content'])){
-              if(!empty($_POST['title']) AND !empty($_POST['content']))
-              {
-                echo "coucou routeur";
-                $controller->changeArticle($_GET['id'], $_POST['title'], $_POST['content']);
-              }
-              else {
-                throw new Exception("Veuillez remplir tous les champs");
-              }
-            }else 
-            {
               $controller->showArticle($_GET['id']);
-                 
-            }
           }
           else {
             throw new Exception('Aucun identifiant de billet envoyé');
           }
         }
-//elseif ($_GET['action'] == 'deleteArticle') {
-        
-//        echo "coucou action delete + id";
-        //die();
-//        $controller->stopArticle($_GET['id']);
- //       header('Location : index.php?action=admin');
-//}
-
-      elseif ($request == "deletePost") {
-        if (array_key_exists("authentification" , $_SESSION) && $_SESSION["authentification"]) {
-          if (!empty($_GET["id"]) && is_numeric($_GET["id"])) {
-            $postsAdminController->deletePost();
-          } else {
-            throw new Exception("l'identifiant du post est incorrect, suppression impossible");
-          }
-        } else {
-            throw new Exception("Vous n'avez pas l'autorisation d'accès");
-        } 
-      }
 
 elseif($_GET['action'] == 'deleteArticle')
         {

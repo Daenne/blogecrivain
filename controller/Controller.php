@@ -83,12 +83,21 @@ class Controller
 
     public function addArticle($title, $content) {
         $newArticle = $this->modelArticle->postArticle($title, $content);
-        if ($newArticle === false) {
+        if ($newArticle == false) {
             throw new Exception('Impossible d\'ajouter le article !');
         }
         else {
             echo "coucou";
             header('Location: index.php?action=admin');
+        }
+    }
+
+    public function addNewArticle($title, $content) {
+        $newArticle = $this->addArticle($title, $content);
+        if ($newPost === false) {
+            throw new Exception('Impossible d\'ajouter l\'article !');
+        } else {
+            header('location: index.php?action=admin');
         }
     }
 
@@ -98,14 +107,14 @@ class Controller
         require('./view/adminArticleUpdateView.php');
     }
 
-    public function changeArticle ($id, $title, $content) {
-        $updateArticle = $this->modelArticle->updateArticle($id, $title, $content);
+    public function changeArticle ($id, $pseudo, $content) {
+        $updateArticle = $this->modelArticle->updateArticle($id, $pseudo, $content);
         echo "coucou controller";
         if ($updateArticle === false) {
             throw new Exception('Impossible de modifier le article !');
         }
         else {
-            header('Location: index.php?action=admin');
+            header('Location: index.php?action=article&id=' . $id);
         }    
     }
 
@@ -113,7 +122,7 @@ class Controller
         $deleteArticle = $this->modelArticle->deleteArticle($id);
         echo "coucou controller";
         if ($deleteArticle == false) {
-            throw new Exception('Impossible de supprimer ce commentaire');
+            throw new Exception('Impossible de supprimer cet article');
         } else {
             header('location: index.php?action=admin');
         }

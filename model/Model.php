@@ -20,19 +20,19 @@ class Model extends Connexion {
 
     }
 
-    public function getAdminId($pseudo){
-        $request = $this->db->prepare('SELECT pseudo FROM members WHERE id = 1');
-        $request->execute(array($pseudo));
-        return $request;
+    //public function getAdminId($pseudo){
+    //    $request = $this->db->prepare('SELECT pseudo FROM members WHERE id = 1');
+    //    $request->execute(array($pseudo));
+   //     return $request;
 
-    }
+    //}
 
-    public function getAdminPW($password){
-        $request = $this->db->prepare('SELECT password FROM members WHERE id = 1');
-        $request->execute(array($password));
-        return $request;
+    //public function getAdminPW($password){
+    //    $request = $this->db->prepare('SELECT password FROM members WHERE id = 1');
+    //    $request->execute(array($password));
+    //    return $request;
 
-    }
+    //}
 
     //METHODES AFFICHAGE ARTICLE(s)
 
@@ -64,9 +64,10 @@ class Model extends Connexion {
     //Méthode pour modifier un article
     public function updateArticle ($id, $title, $content) {
         echo "coucou model modifier ";
-        $request = $this->db->prepare('UPDATE articles SET title = ?, content = ?, date_update = NOW() WHERE id = ?');
-        $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
-        $updateArticle = $request->execute(array($id, $title, $content));
+        $request = $this->db->prepare('UPDATE articles SET title = ?, content = ?, date_update = NOW() WHERE id =' . $id);
+        //$request->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $updateArticle = $request->execute(array($title, $content));
+
         return $updateArticle;
     }
 

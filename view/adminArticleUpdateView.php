@@ -1,5 +1,5 @@
 <article>
-	<form action ="index.php?action=article&amp;id=<?= $initialArticle['id']; ?>" method="POST">
+	<form action ="index.php?action=writeArticle&amp;id=<?= $initialArticle['id']; ?>" method="post">
 
       <input type="text" name="title" placeholder="Titre" value="<?= $initialArticle['title'] ?>" /><br />
 
