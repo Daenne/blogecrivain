@@ -120,26 +120,21 @@ class Controller
 
     public function stopArticle ($id){
         $deleteArticle = $this->modelArticle->deleteArticle($id);
-        echo "coucou controller";
-        if ($deleteArticle == false) {
+        if ($deleteArticle === false) {
             throw new Exception('Impossible de supprimer cet article');
         } else {
             header('location: index.php?action=admin');
         }
-        ///if(($this->endArticle($id)) === false){
-         //   throw new Exception('Impossible de supprimer le article');
-        //}
-        //else {
-            
-            //require('./view/adminView.php');
-            //header('Location : index.php?action=admin');
-        //}
-        //return $deleteArticle;
     }
 
     //
 
     //CONTROL SUR LES COMMENTAIRES
+
+    public function getAllComments(){
+        $comments = $this->modelArticle->getAllComments();
+        require('./view/adminCommentView.php');
+    }
 
     public function getComments($id)
     {
@@ -156,6 +151,15 @@ class Controller
         else {
             header('Location: index.php?action=article&id=' . $articleid);
         }
+    }
 
-}
+    public function stopComment($id){
+        $deleteComment = $this->modelArticle->deleteComment($id);
+        if ($deleteComment === false) {
+            throw new Exception("Impossible de supprimer ce commentaire");
+        } else {
+            header('location: index.php?action=adminComment');
+        }
+
+    }
 }

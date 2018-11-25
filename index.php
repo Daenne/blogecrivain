@@ -81,20 +81,20 @@ elseif($_GET['action'] == 'writeArticle')
         {
             if (!empty($_POST['title']) && !empty($_POST['content'])) 
             {
-              //if(isset($_GET["id"]) && $_GET["id"] > 0)
-              //{
-                echo "coucou change article";
+              if(isset($_GET["id"]) && $_GET["id"] > 0)
+              {
+
                 $controller->changeArticle($_GET["id"], $_POST["title"], $_POST["content"]);
-              //}
+              }
               //elseif (empty($_GET['id']))
               //{
               //  $controller->addArticle($_POST['title'], $_POST['content']);
               //}
-             // else
-              //{
+              else
+              {
                 //$controller->addNewArticle($_POST['title'], $_POST['content']);
-                //throw new Exception("Impossible d'écrire ou de modifier l'article");
-              //}
+                throw new Exception("Impossible d'écrire ou de modifier l'article");
+              }
             }
             else {
               throw new Exception('Tous les champs ne sont pas remplis !');
@@ -134,8 +134,22 @@ elseif($_GET['action'] == 'deleteArticle')
           }
         }
 
-        
+elseif($_GET['action'] == 'adminComment'){
+  $controller->getAllComments();
+}
+elseif($_GET['action'] == 'deleteComment')
+{
+        if (isset($_GET['id']) && $_GET['id'] > 0) 
+          {
+            echo "coucou routeur";
+            $controller->stopComment($_GET['id']);
+          }
+          else {
+            throw new Exception('Aucun identifiant de billet envoyé');
+          }
+}
 
+ 
 
 
 
@@ -188,6 +202,7 @@ elseif($_GET['action'] == 'deleteArticle')
           }
         }
       }
+//}
     }
 
         //else if ($_GET['action'] == 'login') {

@@ -82,6 +82,13 @@ class Model extends Connexion {
 
     //METHODES POUR LES COMMENTAIRES
 
+    public function getAllComments(){
+        $sql = 'SELECT * FROM comments ORDER BY date_create DESC';
+        $request = $this->db->query($sql);
+
+        return $request;
+    }
+
     public function getComments($id) {
         $comments = $this->db->prepare('SELECT id, articleid, author, content, DATE_FORMAT(date_create, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date_fr FROM comments WHERE articleid = ? ORDER BY date_create DESC');
         $comments->execute(array($id));
@@ -92,5 +99,12 @@ class Model extends Connexion {
         $comments = $this->db->prepare('INSERT INTO comments(articleid, author, content, date_create, date_update) VALUES (?, ?, ?, NOW(), NOW())');
         $affectedLines = $comments->execute(array($articleid, $author, $content));
         return $affectedLines;
+    }
+
+    public function deleteComment ($id) {
+        $request = $this->db->prepare('DELETE FROM comments WHERE id =:id');
+        $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $deleteComment = $request->execute();
+        return $deleteArticle;
     }
 }

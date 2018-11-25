@@ -1,9 +1,9 @@
 <h1>Interface utilisateur</h1>
+
+<h2>Gestionnaire des articles</h2>
 <nav>
 	<ul>
-		<li>Ajouter</li>
-		<li>Modifier</li>
-		<li>Supprimer</li>
+		<a href="index.php?action=adminComment"><li>Gérer les commentaires</li></a>
 	</ul>
 </nav>
 
