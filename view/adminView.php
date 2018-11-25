@@ -7,6 +7,8 @@
 	</ul>
 </nav>
 
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+<script>tinymce.init({ selector:'textarea' });</script>
 <form action="index.php?action=addArticle" method ="post">
         <p>
           <label for="title">Titre : </label>
