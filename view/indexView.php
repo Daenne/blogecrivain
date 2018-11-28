@@ -4,16 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <link rel="stylesheet" href="../Web/css/style.css" />
+    <title>Blog de Jean Forteroche</title>
   </head>
   <body>
-    <?php require('template/header.php'); ?>
-<section>
-    <h2>Titre de la partie accueil histoire de présenter</h2>
+<section class="accueil">
+    <h2>Bienvenu</h2>
     <p>Ceci est un texte bref présent uniquement sur la page d'accueil</p>
 </section>
-<article>
+<section class="articles">
    <?php require('listArticlesView.php');?>
-</article>
-<?php require('template/footer.php'); ?>
-</body>
+</section>
+  </body>
 </html>

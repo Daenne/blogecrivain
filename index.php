@@ -33,13 +33,11 @@ try {
         $controller->getIndex();
       } 
 
-
       //Chemin pour les articles
       elseif ($_GET['action'] == 'articles') 
       {
         $controller->getArticles();
       }  
-
 
       //Chemin pour ajout commentaire
       elseif ($_GET['action'] == 'addComment') 
@@ -59,17 +57,6 @@ try {
         }
       }
 
-      elseif ($_GET['action'] == 'warningComment')
-      {
-        if(isset($_GET["id"]) && $_GET["id"] > 0) {
-          $controller->changeComment($_GET['id']);
-      }
-        else {
-          throw new Exception("Aucun commentaire identifié");
-          
-        }
-      }
-
       //Chemin pour un article
       elseif ($_GET['action'] == 'article') 
       {
@@ -81,6 +68,19 @@ try {
           throw new Exception('Aucun identifiant de billet envoyé');
         }
       }
+
+      //Chemin pour signaler
+      elseif ($_GET['action'] == 'warningComment')
+      {
+        if(isset($_GET["id"]) && $_GET["id"] > 0) {
+          $controller->changeComment($_GET['id']);
+      }
+        else {
+          throw new Exception("Le billet n'a pas pu être signalé : aucun identifiant de commentaire trouvé");
+          
+        }
+      }
+
 
 //EN TRAVAUX
 
@@ -96,14 +96,9 @@ elseif($_GET['action'] == 'writeArticle')
 
                 $controller->changeArticle($_GET["id"], $_POST["title"], $_POST["content"]);
               }
-              //elseif (empty($_GET['id']))
-              //{
-              //  $controller->addArticle($_POST['title'], $_POST['content']);
-              //}
               else
               {
-                //$controller->addNewArticle($_POST['title'], $_POST['content']);
-                throw new Exception("Impossible d'écrire ou de modifier l'article");
+                throw new Exception("Impossible de modifier l'article");
               }
             }
             else {
@@ -127,7 +122,7 @@ elseif($_GET['action'] == 'updateArticle')
               $controller->showArticle($_GET['id']);
           }
           else {
-            throw new Exception('Aucun identifiant de billet envoyé');
+            throw new Exception("Impossible de modifier l'article");
           }
         }
 
@@ -135,12 +130,10 @@ elseif($_GET['action'] == 'deleteArticle')
         {
           if (isset($_GET['id']) && $_GET['id'] > 0) 
           {
-            echo "coucou routeur";
             $controller->stopArticle($_GET['id']);
-            //$controller->getIndexAdmin();
           }
           else {
-            throw new Exception('Aucun identifiant de billet envoyé');
+            throw new Exception("Impossible de supprimer l'article");
           }
         }
 
@@ -151,11 +144,10 @@ elseif($_GET['action'] == 'deleteComment')
 {
         if (isset($_GET['id']) && $_GET['id'] > 0) 
           {
-            echo "coucou routeur";
             $controller->stopComment($_GET['id']);
           }
           else {
-            throw new Exception('Aucun identifiant de billet envoyé');
+            throw new Exception("Impossible de supprimer le commentaire");
           }
 }
 
@@ -212,30 +204,12 @@ elseif($_GET['action'] == 'deleteComment')
           }
         }
       }
-//}
     }
-
-        //else if ($_GET['action'] == 'login') {
-
-
-          //$correctPseudo = $controller->idAdmin();
-          //$correctPassWord = $controller->passwdAdmin();
-
-        	//if (((isset($_POST['password'])) AND (($_POST['password']) ==  $correctPassWord)) AND ((isset($_POST['pseudo'])) AND (($_POST['pseudo']) == $correctPseudo))) {
-        	//$controller->getIndexAdmin();
-
-            
-        	//}
-        	//else {
-        	//	throw new Exception('Pseudo et/ou mot de passe incorrect(s)');
-        	//}
-        //}
-
     else {
         $controller->getIndex();
     }
 }
-catch(Exception $e) { // S'il y a eu une erreur, alors...
+catch(Exception $e) { 
     echo 'Erreur : ' . $e->getMessage();
 }
 

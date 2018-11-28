@@ -15,24 +15,8 @@ class Model extends Connexion {
         $result = $this->db->prepare('SELECT pseudo, password FROM members WHERE id = 1');
         $result->execute(array($pseudo, $password));
         $result = $result->fetch();
-
         return $result;
-
     }
-
-    //public function getAdminId($pseudo){
-    //    $request = $this->db->prepare('SELECT pseudo FROM members WHERE id = 1');
-    //    $request->execute(array($pseudo));
-   //     return $request;
-
-    //}
-
-    //public function getAdminPW($password){
-    //    $request = $this->db->prepare('SELECT password FROM members WHERE id = 1');
-    //    $request->execute(array($password));
-    //    return $request;
-
-    //}
 
     //METHODES AFFICHAGE ARTICLE(s)
 
@@ -40,12 +24,10 @@ class Model extends Connexion {
     {
         $sql = 'SELECT * FROM articles ORDER BY id DESC';
         $request = $this->db->query($sql);
-
         return $request;
     }
 
     public function getArticle($id){
-        echo "coucou model 1";
         $request = $this->db->prepare('SELECT * FROM articles WHERE id = :id');
         $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $request->execute();
@@ -64,9 +46,7 @@ class Model extends Connexion {
     //Méthode pour modifier un article
     public function updateArticle ($id, $title, $content) {
         $request = $this->db->prepare('UPDATE articles SET title = ?, content = ?, date_update = NOW() WHERE id =' . $id);
-        //$request->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $updateArticle = $request->execute(array($title, $content));
-
         return $updateArticle;
     }
 
@@ -74,8 +54,7 @@ class Model extends Connexion {
     public function deleteArticle ($id) {
         $request = $this->db->prepare('DELETE FROM articles WHERE id = :id');
         $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
-        $deleteArticle = $request->execute(//array($id)
-    );
+        $deleteArticle = $request->execute();
         return $deleteArticle;
     }
 
@@ -84,7 +63,6 @@ class Model extends Connexion {
     public function getAllComments(){
         $sql = 'SELECT * FROM comments ORDER BY warning DESC';
         $request = $this->db->query($sql);
-
         return $request;
     }
 

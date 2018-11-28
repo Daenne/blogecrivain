@@ -43,29 +43,11 @@ class Controller
         else {
             throw new Exception('Pseudo et/ou mot de passe incorrect(s)');
         }
-
-        //require
-        //$isPseudoCorrect = password_verify($_POST['pseudo'], $result['pseudo']);
-        //$isPasswordCorrect = password_verify($_POST['password'], $result['password']);
     }
-
-    //public function idAdmin($pseudo){
-    //    $pseudo = $this->modelArticle->getAdminId($pseudo);
-    //    $isPseudoCorrect = strcmp($_POST['pseudo'], $pseudo);
-    //    return $isPseudoCorrect;
-    //}
-
-    //public function passwdAdmin ($password){
-    //    $password = $this->modelArticle->getAdminPW($password);
-    //    $isPasswordCorrect = password_verify($_POST['password'], $password);
-    //    return $isPasswordCorrect;
-
-    //}
 
     public function getArticles()
     {
         $articlesList = $this->modelArticle->getArticles();
-        //$deleteArticle = $this->stopArticle($id);
         require('./view/listArticlesView.php');
     }
 
@@ -74,12 +56,10 @@ class Controller
         $article = $this->modelArticle->getArticle($id);
         $article = $article->fetch();
         $comments = $this->getComments($id);
-        //$updateArticle = $this->changeArticle($id);
-        //$deleteArticle = $this->stopArticle($id);
         require('./view/articleView.php');
     }
 
-    //CONTROL SUR LES ACTIONS ARTICLE
+    //CONTROLE SUR LES ACTIONS ARTICLE
 
     public function addArticle($title, $content) {
         $newArticle = $this->modelArticle->postArticle($title, $content);
@@ -87,7 +67,6 @@ class Controller
             throw new Exception('Impossible d\'ajouter le article !');
         }
         else {
-            echo "coucou";
             header('Location: index.php?action=admin');
         }
     }
@@ -96,7 +75,8 @@ class Controller
         $newArticle = $this->addArticle($title, $content);
         if ($newPost === false) {
             throw new Exception('Impossible d\'ajouter l\'article !');
-        } else {
+        } 
+        else {
             header('location: index.php?action=admin');
         }
     }
@@ -109,7 +89,6 @@ class Controller
 
     public function changeArticle ($id, $pseudo, $content) {
         $updateArticle = $this->modelArticle->updateArticle($id, $pseudo, $content);
-        echo "coucou controller";
         if ($updateArticle === false) {
             throw new Exception('Impossible de modifier le article !');
         }
@@ -122,12 +101,12 @@ class Controller
         $deleteArticle = $this->modelArticle->deleteArticle($id);
         if ($deleteArticle === false) {
             throw new Exception('Impossible de supprimer cet article');
-        } else {
+        } 
+        else {
             header('location: index.php?action=admin');
         }
     }
 
-    //
 
     //CONTROL SUR LES COMMENTAIRES
 
@@ -155,7 +134,6 @@ class Controller
 
     public function changeComment($id){
         $updateComment = $this->modelArticle->warningComment($id);
-        echo "coucou controller";
         if ($updateComment === false) {
             throw new Exception('Impossible de signaler le commentaire!');
         }
@@ -168,7 +146,8 @@ class Controller
         $deleteComment = $this->modelArticle->deleteComment($id);
         if ($deleteComment === false) {
             throw new Exception("Impossible de supprimer ce commentaire");
-        } else {
+        } 
+        else {
             header('location: index.php?action=adminComment');
         }
 
