@@ -63,7 +63,6 @@ class Model extends Connexion {
 
     //Méthode pour modifier un article
     public function updateArticle ($id, $title, $content) {
-        echo "coucou model modifier ";
         $request = $this->db->prepare('UPDATE articles SET title = ?, content = ?, date_update = NOW() WHERE id =' . $id);
         //$request->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $updateArticle = $request->execute(array($title, $content));
@@ -83,7 +82,7 @@ class Model extends Connexion {
     //METHODES POUR LES COMMENTAIRES
 
     public function getAllComments(){
-        $sql = 'SELECT * FROM comments ORDER BY date_create DESC';
+        $sql = 'SELECT * FROM comments ORDER BY warning DESC';
         $request = $this->db->query($sql);
 
         return $request;
@@ -96,9 +95,15 @@ class Model extends Connexion {
     }
 
     public function postComment($articleid, $author, $content) {
-        $comments = $this->db->prepare('INSERT INTO comments(articleid, author, content, date_create, date_update) VALUES (?, ?, ?, NOW(), NOW())');
+        $comments = $this->db->prepare('INSERT INTO comments(articleid, author, content, date_create, date_update, warning) VALUES (?, ?, ?, NOW(), NOW(), 0)');
         $affectedLines = $comments->execute(array($articleid, $author, $content));
         return $affectedLines;
+    }
+
+    public function warningComment($id){
+        $request = $this->db->prepare('UPDATE comments SET warning = 1 WHERE id =' . $id);
+        $updateComment = $request->execute();
+        return $updateComment;
     }
 
     public function deleteComment ($id) {

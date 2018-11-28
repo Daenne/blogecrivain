@@ -153,6 +153,17 @@ class Controller
         }
     }
 
+    public function changeComment($id){
+        $updateComment = $this->modelArticle->warningComment($id);
+        echo "coucou controller";
+        if ($updateComment === false) {
+            throw new Exception('Impossible de signaler le commentaire!');
+        }
+        else {
+            header('Location: index.php?action=warningComment&id=' . $id);
+        }  
+    }
+
     public function stopComment($id){
         $deleteComment = $this->modelArticle->deleteComment($id);
         if ($deleteComment === false) {

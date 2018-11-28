@@ -11,6 +11,9 @@
 	?>
 	    <p><strong><?= htmlspecialchars($comment['author']) ?></strong> le <?= $comment['comment_date_fr'] ?></p>
         <p><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+        <form action="index.php?action=warningComment&amp;id=<?= $comment['id']; ?>" method="post"">
+          <input type="submit" value="Signaler">
+        </form> 
 	<?php
 	}
 	?>

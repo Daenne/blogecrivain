@@ -10,10 +10,35 @@
 	<?php
 	while ($comment = $comments->fetch()){
 	?>
-	    <p><strong><?= htmlspecialchars($comment['author']) ?></strong> le <?= $comment['date_create'] ?></p>
-        <p><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+	<table>
+    	<thead>
+        	<tr>
+            	<th>Auteur</th>
+            	<th>Contenu</th>
+            	<th>Date</th>
+            	<th>Statut</th>
+        	</tr>
+    	</thead>
 
-	<a href="index.php?action=deleteComment&amp;id=<?= $comment['id']; ?>"><button>Supprimer</button></a>	
+    	<tbody>
+        	<tr>
+            	<td><strong><?= htmlspecialchars($comment['author']) ?></strong></td>
+            	<td>le <?= $comment['date_create'] ?></td>
+            	<td><?= nl2br(htmlspecialchars($comment['content'])) ?></td>
+            	<td>
+            		<?php
+        			if ($comment['warning'] == 0) {
+        				echo "";
+        			}
+        			else {
+        				echo "Signalé";
+        			}
+        			?>
+            	</td>
+            	<td><a href="index.php?action=deleteComment&amp;id=<?= $comment['id']; ?>"><button>Supprimer</button></a></td>
+        	</tr>
+    	</tbody>
+	</table>	
 	<?php
 	}
 	?>
