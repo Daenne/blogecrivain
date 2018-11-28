@@ -31,6 +31,9 @@ class Controller
         $articlesList = $this->modelArticle->getArticles();
         $result = $this->modelArticle->adminConnexion($pseudo, $password);
 
+        $password == password_hash($password, PASSWORD_DEFAULT);
+        ($result['password']) == password_hash(($result['password']), PASSWORD_DEFAULT);
+
         $isPseudoCorrect = strcmp($pseudo, $result['pseudo']);
 
         $isPasswordCorrect = strcmp($password, $result['password']);
