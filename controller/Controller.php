@@ -160,7 +160,7 @@ class Controller
             throw new Exception('Impossible de signaler le commentaire!');
         }
         else {
-            header('Location: index.php?action=warningComment&id=' . $id);
+            require('./view/warningCommentView.php');
         }  
     }
 

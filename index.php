@@ -61,13 +61,13 @@ try {
 
       elseif ($_GET['action'] == 'warningComment')
       {
-        //if(isset($_GET["id"]) && $_GET["id"] > 0) {
+        if(isset($_GET["id"]) && $_GET["id"] > 0) {
           $controller->changeComment($_GET['id']);
-      //}
-        //else {
-         // throw new Exception("Aucun commentaire identifié");
+      }
+        else {
+          throw new Exception("Aucun commentaire identifié");
           
-        //}
+        }
       }
 
       //Chemin pour un article
