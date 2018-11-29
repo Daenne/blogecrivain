@@ -9,8 +9,8 @@
   <body>
   	<section class="updateArticle">
   		<h1>Modifier l'article : </h1>
-	<!---<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=vf59xyjgxn48ibyemdd9z3bljo7vnd99c667lokvdam3ykfi"></script>-->
-		<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+	     <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=vf59xyjgxn48ibyemdd9z3bljo7vnd99c667lokvdam3ykfi"></script>
+		<!--<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>-->
   		<script>tinymce.init({ selector:'textarea' });</script>
 
 		<form action ="index.php?action=writeArticle&amp;id=<?= strip_tags($initialArticle['id']); ?>" method="post">

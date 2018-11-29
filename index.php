@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once('controller/Controller.php');
 
 $controller = new Controller();
@@ -9,22 +11,21 @@ try {
 
       if ($_GET['action'] == 'login')
       {
-
-        if ((isset($_POST['pseudo'])) AND (isset($_POST['password']))) 
+        if(isset($_SESSION['authentification']))
         {
-          $controller->getAdminConnexion(($_POST['pseudo']), ($_POST['password']));
-          //$result = $controller->getAdminConnexion(($_POST['pseudo']), ($_POST['password']));
-          //$isPseudoCorrect = strcmp($_POST['pseudo'], $result['pseudo']);
-          //$isPasswordCorrect = password_verify($_POST['password'], $result['password']);
+          $controller->getIndexAdmin();
         }
         else 
         {
-          $controller->getLogin();
+          if ((isset($_POST['pseudo'])) AND (isset($_POST['password']))) 
+          {
+            $controller->getAdminConnexion(($_POST['pseudo']), ($_POST['password']));
+          }
+          else        
+          {
+            $controller->getLogin();
+          }
         }
-        
-        //$controller->getAdminConnexion(($_POST['pseudo']), ($_POST['password']));
-
-
       }
 
       //Chemin pour page d'accueil
@@ -84,16 +85,23 @@ try {
 
 //EN TRAVAUX
 
-elseif($_GET['action'] == 'admin'){
-          $controller->getIndexAdmin();
-        }  
-elseif($_GET['action'] == 'writeArticle')
+      elseif($_GET['action'] == 'admin'){
+        if (isset($_SESSION['authentification'])) 
         {
+          $controller->getIndexAdmin();
+        }
+        else {
+          $controller->getLogin();
+        } 
+      }  
+      elseif($_GET['action'] == 'writeArticle')
+        {
+          if (isset($_SESSION['authentification'])) 
+          {
             if (!empty($_POST['title']) && !empty($_POST['content'])) 
             {
               if(isset($_GET["id"]) && $_GET["id"] > 0)
               {
-
                 $controller->changeArticle($_GET["id"], $_POST["title"], $_POST["content"]);
               }
               else
@@ -104,106 +112,166 @@ elseif($_GET['action'] == 'writeArticle')
             else {
               throw new Exception('Tous les champs ne sont pas remplis !');
             }
+          }
+          else {
+            throw new Exception("Vous n'avez pas les autorisations nécessaires");
+          }
         }
 
-elseif ($_GET['action'] == 'addArticle') {
-  if (!empty($_POST['title']) && !empty($_POST['content'])) {
-    $controller->addArticle($_POST['title'], $_POST['content']);
-  }
-  else{
-    throw new Exception("Veuillez remplir tous les champs");
-  }
-}
+      elseif ($_GET['action'] == 'addArticle') 
+      {
+        if(isset($_SESSION['authentification']))
+        {
+          if (!empty($_POST['title']) && !empty($_POST['content'])) 
+          {
+            $controller->addArticle($_POST['title'], $_POST['content']);
+          }
+          else
+          {
+            throw new Exception("Veuillez remplir tous les champs");
+          }
+        }
+        else 
+        {
+          throw new Exception("Vous n'avez pas les autorisations nécessaires");
+        }
+      }
 
-elseif($_GET['action'] == 'updateArticle')
+      elseif($_GET['action'] == 'updateArticle')
+      {
+
+        if (isset($_SESSION['authentification']))
         {
           if (isset($_GET['id']) && $_GET['id'] > 0) 
           {
-              $controller->showArticle($_GET['id']);
+            $controller->showArticle($_GET['id']);
           }
-          else {
+          else 
+          {
             throw new Exception("Impossible de modifier l'article");
           }
         }
+        else 
+        {
+          throw new Exception("Vous n'avez pas les autorisations nécessaires");
+        }       
+      }
 
-elseif($_GET['action'] == 'deleteArticle')
+      elseif($_GET['action'] == 'deleteArticle')
+      {
+        if(isset($_SESSION['authentification']))
         {
           if (isset($_GET['id']) && $_GET['id'] > 0) 
           {
             $controller->stopArticle($_GET['id']);
           }
-          else {
+          else 
+          {
             throw new Exception("Impossible de supprimer l'article");
           }
         }
+        else 
+        {
+          throw new Exception("Vous n'avez pas les autorisations nécessaires");
+        }
+      }
 
-elseif($_GET['action'] == 'adminComment'){
-  $controller->getAllComments();
-}
-elseif($_GET['action'] == 'deleteComment')
-{
-        if (isset($_GET['id']) && $_GET['id'] > 0) 
+      elseif($_GET['action'] == 'adminComment')
+      {
+        if(isset($_SESSION['authentification']))
+        {
+          $controller->getAllComments();
+        }
+        else 
+        {
+          throw new Exception("Vous n'avez pas les autorisations nécessaires");
+        }
+      }
+      elseif($_GET['action'] == 'deleteComment')
+      {
+        if(isset($_SESSION['authentification']))
+        {
+          if (isset($_GET['id']) && $_GET['id'] > 0) 
           {
             $controller->stopComment($_GET['id']);
           }
-          else {
+          else 
+          {
             throw new Exception("Impossible de supprimer le commentaire");
           }
-}
+        }
+        else 
+        {
+          throw new Exception("Vous n'avez pas les autorisations nécessaires");
+        }
+      }
 
+      elseif ($_GET['action'] == 'endAdmin')
+      {
+        if (isset($_SESSION['authentification']))
+        {
+          session_unset();
+          session_destroy();
+          $controller->getIndex();
+        }
+        else
+        {
+          $controller->getIndex();
+        }
+      }
  
 
 
 
       //Chemin pour s'authentifier PAS VALIDE POUR LE MOMENT
-      elseif (isset($_SESSION['pseudo']))
-      {
-        echo 'Bonjour ' . $_SESSION['pseudo'];
+      //elseif (isset($_SESSION['pseudo']))
+      //{
+      //  echo 'Bonjour ' . $_SESSION['pseudo'];
 
-        if($_GET['action'] == 'admin'){
-          echo'coucou action admin';
-          $controller->getIndexAdmin();
-        }  
+      //  if($_GET['action'] == 'admin'){
+      //    echo'coucou action admin';
+       //   $controller->getIndexAdmin();
+       // }  
         //Chemin pour ajouter un article
-        elseif($_GET['action'] == 'admin&amp;addArticle')
-        {
-          if (isset($_GET['id']) && $_GET['id'] > 0) 
-          {
-            if (!empty($_POST['title']) && !empty($_POST['content'])) 
-            {
-              $controller->addArticle($_POST['title'], $_POST['content']);
-            }
-            else {
-              throw new Exception('Tous les champs ne sont pas remplis !');
-            }
-          }
-          else {
-            throw new Exception('Aucun identifiant de billet envoyé');
-          }
-        }
+       // elseif($_GET['action'] == 'admin&amp;addArticle')
+       // {
+       //   if (isset($_GET['id']) && $_GET['id'] > 0) 
+       //   {
+       //     if (!empty($_POST['title']) && !empty($_POST['content'])) 
+        //    {
+       //       $controller->addArticle($_POST['title'], $_POST['content']);
+        //    }
+        //    else {
+        //      throw new Exception('Tous les champs ne sont pas remplis !');
+       //     }
+        //  }
+        //  else {
+        //    throw new Exception('Aucun identifiant de billet envoyé');
+        //  }
+       // }
         //Chemin pour update un article
-        elseif($_GET['action'] == 'admin&amp;updateArticle')
-        {
-          if (isset($_GET['id']) && $_GET['id'] > 0) 
-          {
-            $controller->getArticle($id);
-          }
-          else {
-            throw new Exception('Aucun identifiant de billet envoyé');
-          }
-        }
+       // elseif($_GET['action'] == 'admin&amp;updateArticle')
+       // {
+       //   if (isset($_GET['id']) && $_GET['id'] > 0) 
+       //   {
+       //     $controller->getArticle($id);
+       //   }
+      //    else {
+       //     throw new Exception('Aucun identifiant de billet envoyé');
+       //   }
+       // }
         //Chemin pour delete un article
-        elseif($_GET['action'] == 'admin&amp;deleteArticle')
-        {
-          if (isset($_GET['id']) && $_GET['id'] > 0) 
-          {
-            $controller->getArticle($_GET['id']);
-          }
-          else {
-            throw new Exception('Aucun identifiant de billet envoyé');
-          }
-        }
-      }
+        //elseif($_GET['action'] == 'admin&amp;deleteArticle')
+       // {
+       //   if (isset($_GET['id']) && $_GET['id'] > 0) 
+       //   {
+        //    $controller->getArticle($_GET['id']);
+       //   }
+       //   else {
+        //    throw new Exception('Aucun identifiant de billet envoyé');
+        //  }
+       // }
+      //}
     }
     else {
         $controller->getIndex();

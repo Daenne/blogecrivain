@@ -7,7 +7,7 @@
     <title>Commentaire signalé!</title>
   </head>
   <body>
-    <?php require('template/header.php'); ?>
+    <?php include('template/header.php'); ?>
 	<section class="warning">
 		<h2>Merci de votre contribution</h2>
 
@@ -15,6 +15,6 @@
 
 		<a href="index.php?action=blog">Retour à la page d'accueil</a>
 	</section>
-	<?php require('template/footer.php'); ?>
+	<?php include('template/footer.php'); ?>
   </body>
 </html>

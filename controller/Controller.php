@@ -35,15 +35,15 @@ class Controller
         ($result['password']) == password_hash(($result['password']), PASSWORD_DEFAULT);
 
         $isPseudoCorrect = strcmp($pseudo, $result['pseudo']);
-
         $isPasswordCorrect = strcmp($password, $result['password']);
 
         if (($isPseudoCorrect == 0) AND ($isPasswordCorrect == 0)) {
-            session_start();
             $_SESSION['pseudo'] = $pseudo;
+            $_SESSION['authentification'] = true;
             require('./view/adminView.php');
         }
         else {
+            $_SESSION['authentification'] = false;
             throw new Exception('Pseudo et/ou mot de passe incorrect(s)');
         }
     }

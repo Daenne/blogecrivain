@@ -8,7 +8,7 @@
   </head>
   <body>
     <h1>Interface utilisateur</h1>
-
+    <a href="index.php?action=endAdmin"><button>Déconnexion</button></a>
     <div class="commentAdmin">
         <h2>Gestionnaire des commentaires</h2>
         <a href="index.php?action=admin"><li>Gérer les articles</li></a>

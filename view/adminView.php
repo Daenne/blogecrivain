@@ -8,13 +8,13 @@
   </head>
   <body>
     <h1>Interface utilisateur</h1>
-
+    <a href="index.php?action=endAdmin"><button>Déconnexion</button></a>
     <div class="articleAdmin">
       <h2>Gestionnaire des articles</h2>
 		  <a href="index.php?action=adminComment"><li>Gérer les commentaires</li></a>
 
 
-      <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+      <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=vf59xyjgxn48ibyemdd9z3bljo7vnd99c667lokvdam3ykfi"></script>
       <script>tinymce.init({ selector:'textarea' });</script>
 
       <form action="index.php?action=addArticle" method ="post">
