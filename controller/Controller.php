@@ -14,17 +14,17 @@ class Controller
     public function getIndex()
     {
         $articlesList = $this->modelArticle->getArticles();
-        require('./view/indexView.php');
+        require('./view/frontend/indexView.php');
     }
 
     public function getIndexAdmin()
     {
         $articlesList = $this->modelArticle->getArticles();
-        require('./view/adminView.php');
+        require('./view/backend/adminView.php');
     }
 
     public function getLogin(){ 
-        require('./view/loginView.php');
+        require('./view/frontend/loginView.php');
     }
 
     public function getAdminConnexion ($pseudo, $password) {
@@ -40,7 +40,7 @@ class Controller
         if (($isPseudoCorrect == 0) AND ($isPasswordCorrect == 0)) {
             $_SESSION['pseudo'] = $pseudo;
             $_SESSION['authentification'] = true;
-            require('./view/adminView.php');
+            require('./view/backend/adminView.php');
         }
         else {
             $_SESSION['authentification'] = false;
@@ -51,7 +51,7 @@ class Controller
     public function getArticles()
     {
         $articlesList = $this->modelArticle->getArticles();
-        require('./view/listArticlesView.php');
+        require('./view/frontend/listArticlesView.php');
     }
 
     public function getArticle($id)
@@ -59,7 +59,7 @@ class Controller
         $article = $this->modelArticle->getArticle($id);
         $article = $article->fetch();
         $comments = $this->getComments($id);
-        require('./view/articleView.php');
+        require('./view/frontend/articleView.php');
     }
 
     //CONTROLE SUR LES ACTIONS ARTICLE
@@ -87,7 +87,7 @@ class Controller
     public function showArticle($id) {
         $initialArticle = $this->modelArticle->getArticle($id);
         $initialArticle = $initialArticle->fetch();
-        require('./view/adminArticleUpdateView.php');
+        require('./view/backend/adminArticleUpdateView.php');
     }
 
     public function changeArticle ($id, $pseudo, $content) {
@@ -115,7 +115,7 @@ class Controller
 
     public function getAllComments(){
         $comments = $this->modelArticle->getAllComments();
-        require('./view/adminCommentView.php');
+        require('./view/backend/adminCommentView.php');
     }
 
     public function getComments($id)
@@ -141,7 +141,7 @@ class Controller
             throw new Exception('Impossible de signaler le commentaire!');
         }
         else {
-            require('./view/warningCommentView.php');
+            require('./view/frontend/warningCommentView.php');
         }  
     }
 
