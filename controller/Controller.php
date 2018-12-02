@@ -14,16 +14,21 @@ class Controller
     public function getIndex()
     {
         $articlesList = $this->modelArticle->getArticles();
+        $pageTitle = 'Blog de Jean Forteroche';
         require('./view/frontend/indexView.php');
     }
+
+    //ADMIN
 
     public function getIndexAdmin()
     {
         $articlesList = $this->modelArticle->getArticles();
+        $pageTitle = 'Administration';
         require('./view/backend/adminView.php');
     }
 
     public function getLogin(){ 
+        $pageTitle = 'Authentification';
         require('./view/frontend/loginView.php');
     }
 
@@ -40,17 +45,20 @@ class Controller
         if (($isPseudoCorrect == 0) AND ($isPasswordCorrect == 0)) {
             $_SESSION['pseudo'] = $pseudo;
             $_SESSION['authentification'] = true;
+            $pageTitle = 'Administration';
             require('./view/backend/adminView.php');
         }
         else {
-            $_SESSION['authentification'] = false;
-            throw new Exception('Pseudo et/ou mot de passe incorrect(s)');
+            throw new Exception("<p>Pseudo et/ou mot de passe incorrect(s). Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }
     }
+
+    //ARTICLE(S)
 
     public function getArticles()
     {
         $articlesList = $this->modelArticle->getArticles();
+        $pageTitle = "Articles d'un billet pour l'Alaska";
         require('./view/frontend/listArticlesView.php');
     }
 
@@ -58,16 +66,15 @@ class Controller
     {
         $article = $this->modelArticle->getArticle($id);
         $article = $article->fetch();
+        $pageTitle = $article['title'];
         $comments = $this->getComments($id);
         require('./view/frontend/articleView.php');
     }
 
-    //CONTROLE SUR LES ACTIONS ARTICLE
-
     public function addArticle($title, $content) {
         $newArticle = $this->modelArticle->postArticle($title, $content);
         if ($newArticle == false) {
-            throw new Exception('Impossible d\'ajouter le article !');
+            throw new Exception("<p>Impossible d'ajouter l'article. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }
         else {
             header('Location: index.php?action=admin');
@@ -77,7 +84,7 @@ class Controller
     public function addNewArticle($title, $content) {
         $newArticle = $this->addArticle($title, $content);
         if ($newPost === false) {
-            throw new Exception('Impossible d\'ajouter l\'article !');
+            throw new Exception("<p>Impossible d'ajouter l'article. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         } 
         else {
             header('location: index.php?action=admin');
@@ -87,13 +94,14 @@ class Controller
     public function showArticle($id) {
         $initialArticle = $this->modelArticle->getArticle($id);
         $initialArticle = $initialArticle->fetch();
+        $pageTitle = 'Modifier un article';
         require('./view/backend/adminArticleUpdateView.php');
     }
 
     public function changeArticle ($id, $pseudo, $content) {
         $updateArticle = $this->modelArticle->updateArticle($id, $pseudo, $content);
         if ($updateArticle === false) {
-            throw new Exception('Impossible de modifier le article !');
+            throw new Exception("<p>Impossible de modifier l'article. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }
         else {
             header('Location: index.php?action=article&id=' . $id);
@@ -103,18 +111,18 @@ class Controller
     public function stopArticle ($id){
         $deleteArticle = $this->modelArticle->deleteArticle($id);
         if ($deleteArticle === false) {
-            throw new Exception('Impossible de supprimer cet article');
+            throw new Exception("<p>Impossible de supprimer l'article. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         } 
         else {
             header('location: index.php?action=admin');
         }
     }
 
-
-    //CONTROL SUR LES COMMENTAIRES
+    //COMMENTS
 
     public function getAllComments(){
         $comments = $this->modelArticle->getAllComments();
+        $pageTitle = 'Gestion des commentaires';
         require('./view/backend/adminCommentView.php');
     }
 
@@ -128,7 +136,7 @@ class Controller
     {
         $affectedLines = $this->modelArticle->postComment($articleid, $author, $content);
         if ($affectedLines === false) {
-            throw new Exception('Impossible d\'ajouter le commentaire !');
+            throw new Exception("<p>Impossible d'ajouter le commentaire. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }
         else {
             header('Location: index.php?action=article&id=' . $articleid);
@@ -137,8 +145,9 @@ class Controller
 
     public function changeComment($id){
         $updateComment = $this->modelArticle->warningComment($id);
+        $pageTitle = 'Commentaire signalé';
         if ($updateComment === false) {
-            throw new Exception('Impossible de signaler le commentaire!');
+            throw new Exception("<p>Impossible de signaler le commentaire. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }
         else {
             require('./view/frontend/warningCommentView.php');
@@ -148,7 +157,7 @@ class Controller
     public function stopComment($id){
         $deleteComment = $this->modelArticle->deleteComment($id);
         if ($deleteComment === false) {
-            throw new Exception("Impossible de supprimer ce commentaire");
+            throw new Exception("<p>Impossible de supprimer le commentaire. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         } 
         else {
             header('location: index.php?action=adminComment');

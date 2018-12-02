@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!--<link rel="stylesheet" href="../Web/css/style.css" />-->
-    <title><?= $article['title']; ?></title>
-  </head>
-  <body>
 
-    <section class="post">
+    
       <?php include('./view/template/header.php'); ?>
-      <div class="article">
+      <section class="post">
+        <div class="article">
         <h2>
         <?= strip_tags($article['title'])?>
         </h2>
@@ -44,10 +32,9 @@
           <p><button type="submit">Envoyer</button></p>
         </form> 
       </div>
-      <?php include('./view/template/footer.php'); ?>  
+      
     </section>
-  </body>
-
+<?php include('./view/template/footer.php'); ?>  
 
 
 

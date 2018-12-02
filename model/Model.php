@@ -3,13 +3,14 @@
 require_once('Connexion.php');
 
 class Model extends Connexion {
+    
     protected $db;
 
     public function __construct(){
         $this->db = $this->getDb();
     }
 
-    //METHODES POUR CHERCHER ID ET MDP
+    //ADMIN
 
     public function adminConnexion ($pseudo, $password){
         $result = $this->db->prepare('SELECT pseudo, password FROM members WHERE id = 1');
@@ -18,7 +19,15 @@ class Model extends Connexion {
         return $result;
     }
 
-    //METHODES AFFICHAGE ARTICLE(s)
+    //ARTICLE(S)
+        //CREATE
+
+    public function postArticle($title, $content){
+        $article = $this->db->prepare('INSERT INTO articles(title, content, date_create, date_update) VALUES (?, ?, NOW(), NOW())');
+        $newArticle = $article->execute(array($title, $content));
+        return $newArticle;
+    }
+        //READ
 
     public function getArticles()
     {
@@ -33,24 +42,15 @@ class Model extends Connexion {
         $request->execute();
         return $request;
     }
+        //UPDATE
 
-    //METHODES QUI INFLUENT SUR UN ARTICLE
-
-    //Méthode pour ajouter un article
-    public function postArticle($title, $content){
-        $article = $this->db->prepare('INSERT INTO articles(title, content, date_create, date_update) VALUES (?, ?, NOW(), NOW())');
-        $newArticle = $article->execute(array($title, $content));
-        return $newArticle;
-    }
-
-    //Méthode pour modifier un article
     public function updateArticle ($id, $title, $content) {
         $request = $this->db->prepare('UPDATE articles SET title = ?, content = ?, date_update = NOW() WHERE id =' . $id);
         $updateArticle = $request->execute(array($title, $content));
         return $updateArticle;
-    }
+    }    
+        //DELETE
 
-    //Méthode pour supprimer un article
     public function deleteArticle ($id) {
         $request = $this->db->prepare('DELETE FROM articles WHERE id = :id');
         $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
@@ -58,7 +58,9 @@ class Model extends Connexion {
         return $deleteArticle;
     }
 
-    //METHODES POUR LES COMMENTAIRES
+
+    //COMMENTS
+        //CREATE
 
     public function getAllComments(){
         $sql = 'SELECT * FROM comments ORDER BY warning DESC';
@@ -71,18 +73,21 @@ class Model extends Connexion {
         $comments->execute(array($id));
         return $comments;
     }
+        //READ
 
     public function postComment($articleid, $author, $content) {
         $comments = $this->db->prepare('INSERT INTO comments(articleid, author, content, date_create, date_update, warning) VALUES (?, ?, ?, NOW(), NOW(), 0)');
         $affectedLines = $comments->execute(array($articleid, $author, $content));
         return $affectedLines;
     }
+        //UPDATE
 
     public function warningComment($id){
         $request = $this->db->prepare('UPDATE comments SET warning = 1 WHERE id =' . $id);
         $updateComment = $request->execute();
         return $updateComment;
-    }
+    }    
+        //DELETE
 
     public function deleteComment ($id) {
         $request = $this->db->prepare('DELETE FROM comments WHERE id =:id');
@@ -90,4 +95,5 @@ class Model extends Connexion {
         $deleteComment = $request->execute();
         return $deleteArticle;
     }
+
 }

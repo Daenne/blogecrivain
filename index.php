@@ -7,8 +7,9 @@ require_once('controller/Controller.php');
 $controller = new Controller();
 
 try { 
-    if (isset($_GET['action'])) {
-
+    if (isset($_GET['action'])) 
+    {
+      //Way to get login
       if ($_GET['action'] == 'login')
       {
         if(isset($_SESSION['authentification']))
@@ -28,19 +29,19 @@ try {
         }
       }
 
-      //Chemin pour page d'accueil
+      //Way to get home page
       elseif ($_GET['action'] == 'blog') 
       {
         $controller->getIndex();
       } 
 
-      //Chemin pour les articles
+      //Way to get articles page
       elseif ($_GET['action'] == 'articles') 
       {
         $controller->getArticles();
       }  
 
-      //Chemin pour ajout commentaire
+      //Way to add a comment
       elseif ($_GET['action'] == 'addComment') 
       {
         if (isset($_GET['id']) && $_GET['id'] > 0) 
@@ -49,51 +50,57 @@ try {
           { 	
             $controller->addComment($_GET['id'], $_POST['author'], $_POST['content']);
           }
-          else {
-            throw new Exception('Tous les champs ne sont pas remplis !');
+          else 
+          {
+            throw new Exception("<p>Tous les champs ne sont pas remplis. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
           }
         }
-        else {
-          throw new Exception('Aucun identifiant de billet envoyé');
+        else 
+        {
+          throw new Exception("<p>Aucun identifiant de billet envoyé. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }
       }
 
-      //Chemin pour un article
+      //Way to get an article
       elseif ($_GET['action'] == 'article') 
       {
         if (isset($_GET['id']) && $_GET['id'] > 0) 
         {
           $controller->getArticle($_GET['id']);
         }
-        else {
-          throw new Exception('Aucun identifiant de billet envoyé');
+        else 
+        {
+          throw new Exception("<p>Aucun identifiant de billet envoyé. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }
       }
 
-      //Chemin pour signaler
+      //Way to report a comment
       elseif ($_GET['action'] == 'warningComment')
       {
-        if(isset($_GET["id"]) && $_GET["id"] > 0) {
+        if(isset($_GET["id"]) && $_GET["id"] > 0) 
+        {
           $controller->changeComment($_GET['id']);
-      }
-        else {
-          throw new Exception("Le billet n'a pas pu être signalé : aucun identifiant de commentaire trouvé");
+        }
+        else 
+        {
+          throw new Exception("<p>Ce commentaire n'a pas pu être signalé. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
           
         }
       }
 
-
-//EN TRAVAUX
-
+      //Way to get admin home page
       elseif($_GET['action'] == 'admin'){
         if (isset($_SESSION['authentification'])) 
         {
           $controller->getIndexAdmin();
         }
-        else {
+        else 
+        {
           $controller->getLogin();
         } 
-      }  
+      } 
+
+      //Way to write an article already exist
       elseif($_GET['action'] == 'writeArticle')
         {
           if (isset($_SESSION['authentification'])) 
@@ -106,18 +113,21 @@ try {
               }
               else
               {
-                throw new Exception("Impossible de modifier l'article");
+                throw new Exception("<p>Impossible de modifier l'article. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
               }
             }
-            else {
-              throw new Exception('Tous les champs ne sont pas remplis !');
+            else 
+            {
+              throw new Exception("<p>Tous les champs ne sont pas remplis. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
             }
           }
-          else {
-            throw new Exception("Vous n'avez pas les autorisations nécessaires");
+          else 
+          {
+            throw new Exception("<p>Vous n'avez pas les accès nécessaires. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
           }
         }
 
+      //Way to add a new article
       elseif ($_GET['action'] == 'addArticle') 
       {
         if(isset($_SESSION['authentification']))
@@ -128,15 +138,16 @@ try {
           }
           else
           {
-            throw new Exception("Veuillez remplir tous les champs");
+            throw new Exception("<p>Tous les champs ne sont pas remplis. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
           }
         }
         else 
         {
-          throw new Exception("Vous n'avez pas les autorisations nécessaires");
+          throw new Exception("<p>Vous n'avez pas les accès nécessaires. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }
       }
 
+      //Way to edit page
       elseif($_GET['action'] == 'updateArticle')
       {
 
@@ -148,15 +159,16 @@ try {
           }
           else 
           {
-            throw new Exception("Impossible de modifier l'article");
+            throw new Exception("<p>Impossible de modifier l'article. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
           }
         }
         else 
         {
-          throw new Exception("Vous n'avez pas les autorisations nécessaires");
+          throw new Exception("<p>Vous n'avez pas les accès nécessaires. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }       
       }
 
+      //Way to delete an article
       elseif($_GET['action'] == 'deleteArticle')
       {
         if(isset($_SESSION['authentification']))
@@ -167,15 +179,16 @@ try {
           }
           else 
           {
-            throw new Exception("Impossible de supprimer l'article");
+            throw new Exception("<p>Impossible de supprimer l'article. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
           }
         }
         else 
         {
-          throw new Exception("Vous n'avez pas les autorisations nécessaires");
+          throw new Exception("<p>Vous n'avez pas les accès nécessaires. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }
       }
 
+      //Way to get admin comments page
       elseif($_GET['action'] == 'adminComment')
       {
         if(isset($_SESSION['authentification']))
@@ -184,9 +197,11 @@ try {
         }
         else 
         {
-          throw new Exception("Vous n'avez pas les autorisations nécessaires");
+          throw new Exception("<p>Vous n'avez pas les accès nécessaires. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }
       }
+
+      //Way to delete a comment
       elseif($_GET['action'] == 'deleteComment')
       {
         if(isset($_SESSION['authentification']))
@@ -197,19 +212,21 @@ try {
           }
           else 
           {
-            throw new Exception("Impossible de supprimer le commentaire");
+            throw new Exception("<p>Impossible de supprimer ce commentaire. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
           }
         }
         else 
         {
-          throw new Exception("Vous n'avez pas les autorisations nécessaires");
+          throw new Exception("<p>Vous n'avez pas les accès nécessaires. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
         }
       }
 
+      //Way to logout admin page
       elseif ($_GET['action'] == 'endAdmin')
       {
         if (isset($_SESSION['authentification']))
         {
+          $_SESSION['authentification'] = false;
           session_unset();
           session_destroy();
           $controller->getIndex();
@@ -219,130 +236,13 @@ try {
           $controller->getIndex();
         }
       }
- 
-
-
-
-      //Chemin pour s'authentifier PAS VALIDE POUR LE MOMENT
-      //elseif (isset($_SESSION['pseudo']))
-      //{
-      //  echo 'Bonjour ' . $_SESSION['pseudo'];
-
-      //  if($_GET['action'] == 'admin'){
-      //    echo'coucou action admin';
-       //   $controller->getIndexAdmin();
-       // }  
-        //Chemin pour ajouter un article
-       // elseif($_GET['action'] == 'admin&amp;addArticle')
-       // {
-       //   if (isset($_GET['id']) && $_GET['id'] > 0) 
-       //   {
-       //     if (!empty($_POST['title']) && !empty($_POST['content'])) 
-        //    {
-       //       $controller->addArticle($_POST['title'], $_POST['content']);
-        //    }
-        //    else {
-        //      throw new Exception('Tous les champs ne sont pas remplis !');
-       //     }
-        //  }
-        //  else {
-        //    throw new Exception('Aucun identifiant de billet envoyé');
-        //  }
-       // }
-        //Chemin pour update un article
-       // elseif($_GET['action'] == 'admin&amp;updateArticle')
-       // {
-       //   if (isset($_GET['id']) && $_GET['id'] > 0) 
-       //   {
-       //     $controller->getArticle($id);
-       //   }
-      //    else {
-       //     throw new Exception('Aucun identifiant de billet envoyé');
-       //   }
-       // }
-        //Chemin pour delete un article
-        //elseif($_GET['action'] == 'admin&amp;deleteArticle')
-       // {
-       //   if (isset($_GET['id']) && $_GET['id'] > 0) 
-       //   {
-        //    $controller->getArticle($_GET['id']);
-       //   }
-       //   else {
-        //    throw new Exception('Aucun identifiant de billet envoyé');
-        //  }
-       // }
-      //}
     }
-    else {
+    else 
+    {
         $controller->getIndex();
     }
 }
-catch(Exception $e) { 
+catch(Exception $e) 
+{ 
     echo 'Erreur : ' . $e->getMessage();
 }
-
-
-
-
-
-//if (isset($_GET['action'])) {
-//	switch ($_GET['action']) {
-//		case '':
-//			$controller->getIndex();
-//			break;	
-//		case 'addComment':
-//			if (isset($_GET['id']) && $_GET['id'] > 0) {
-
- //           if (!empty($_POST['author']) && !empty($_POST['content'])) {
-  //              addComment($_GET['id'], $_POST['author'], $_POST['content']);
-  //          }
-   //         else {
-    //           echo 'Erreur : tous les champs ne sont pas remplis !';
-    //        }
-//
-     //   	}else {
-     //       echo 'Erreur : aucun identifiant de billet envoyé';
-     //   	}
-       // 	break;
-	//	case 'article':
-		//	if ((isset($_GET['id'])) && ($_GET['id'] >0)){
-		//		$controller->getArticle($_GET['id']);
-		//	//	$controller->getComments($_GET['id']);	
-		//	}else {
-		//		$controller->getIndex();
-		//	}
-		//	break;
-
-		//case 'blog':
-		//	$controller->getArticles();
-		//	break;
-		//default:
-		//	$controller->getIndex();
-		//	break;
-	//}
-    //if ($_GET['action'] == '') {
-    //    $controller->getIndex();
-    //}
-    //elseif((isset($_GET['action']) == 'blog')){
-    //    $controller->getArticles();
-    //}
-    //elseif((isset($_GET['action']) == 'article')){
-    //   	$controller->getArticle(isnumeric($_GET['id']));
-       	//$controller->getComments(isnumeric($_GET['articleid']));
-       	//if (isset($_GET['id']) && $_GET['id']){
-       	//	$controller->getArticle($_GET['id']);
-       	//}else {
-       	//	$controller->getArticles();
-       	//}
-    //}
-    //elseif((isset($_GET['action']) == 'article&id=?')){
-    //	$controller->getArticle(isnumeric($_GET['id']));
-     //  	$controller->getComments(isnumeric($_GET['articleid']));
-    //}
-//}
-//else
-//{
- //   $controller->getIndex();
-//}
-
-
