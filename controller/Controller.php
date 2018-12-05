@@ -55,6 +55,19 @@ class Controller
 
     //ARTICLE(S)
 
+        //CREATE
+
+    public function addArticle($title, $content) {
+        $newArticle = $this->modelArticle->postArticle($title, $content);
+        if ($newArticle === false) {
+            throw new Exception("<p>Impossible d'ajouter l'article. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
+        } 
+        else {
+            header('location: index.php?action=admin');
+        }
+    }
+        //READ
+
     public function getArticles()
     {
         $articlesList = $this->modelArticle->getArticles();
@@ -71,32 +84,13 @@ class Controller
         require('./view/frontend/articleView.php');
     }
 
-    public function addArticle($title, $content) {
-        $newArticle = $this->modelArticle->postArticle($title, $content);
-        if ($newArticle == false) {
-            throw new Exception("<p>Impossible d'ajouter l'article. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
-        }
-        else {
-            header('Location: index.php?action=admin');
-        }
-    }
-
-    public function addNewArticle($title, $content) {
-        $newArticle = $this->addArticle($title, $content);
-        if ($newPost === false) {
-            throw new Exception("<p>Impossible d'ajouter l'article. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
-        } 
-        else {
-            header('location: index.php?action=admin');
-        }
-    }
-
-    public function showArticle($id) {
+        public function showArticle($id) {
         $initialArticle = $this->modelArticle->getArticle($id);
         $initialArticle = $initialArticle->fetch();
         $pageTitle = 'Modifier un article';
         require('./view/backend/adminArticleUpdateView.php');
     }
+        //UPDATE
 
     public function changeArticle ($id, $pseudo, $content) {
         $updateArticle = $this->modelArticle->updateArticle($id, $pseudo, $content);
@@ -107,6 +101,7 @@ class Controller
             header('Location: index.php?action=article&id=' . $id);
         }    
     }
+        //DELETE
 
     public function stopArticle ($id){
         $deleteArticle = $this->modelArticle->deleteArticle($id);
@@ -120,17 +115,7 @@ class Controller
 
     //COMMENTS
 
-    public function getAllComments(){
-        $comments = $this->modelArticle->getAllComments();
-        $pageTitle = 'Gestion des commentaires';
-        require('./view/backend/adminCommentView.php');
-    }
-
-    public function getComments($id)
-    {
-        $comments = $this->modelArticle->getComments($_GET['id']);
-        return $comments;
-    }
+        //CREATE
 
     public function addComment($articleid, $author, $content)
     {
@@ -142,8 +127,22 @@ class Controller
             header('Location: index.php?action=article&id=' . $articleid);
         }
     }
+        //READ
 
-    public function changeComment($id){
+    public function getAllComments(){
+        $comments = $this->modelArticle->getAllComments();
+        $pageTitle = 'Gestion des commentaires';
+        require('./view/backend/adminCommentView.php');
+    }
+
+    public function getComments($id)
+    {
+        $comments = $this->modelArticle->getComments($_GET['id']);
+        return $comments;
+    }
+        //UPDATE
+
+    public function signaledComment($id){
         $updateComment = $this->modelArticle->warningComment($id);
         $pageTitle = 'Commentaire signalé';
         if ($updateComment === false) {
@@ -153,6 +152,19 @@ class Controller
             require('./view/frontend/warningCommentView.php');
         }  
     }
+
+    public function isNotSignaledComment($id) {
+        $updateComment = $this->modelArticle->validComment($id);
+        $pageTitle = 'Validation';
+        if ($updateComment === true) {
+            require('./view/backend/adminValidComment.php');
+        }
+        else {
+            throw new Exception("<p>Impossible de valider le commentaire. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
+            
+        }  
+    }
+        //DELETE
 
     public function stopComment($id){
         $deleteComment = $this->modelArticle->deleteComment($id);

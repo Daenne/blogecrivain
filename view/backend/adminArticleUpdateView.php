@@ -5,7 +5,7 @@ include('./view/template/headerAdmin.php');
 <section class="section">
   <div class="container">
 
-  		<h2 class="title is-2">Modifier l'article : </h2>
+  	<h2 class="title is-2">Modifier l'article : </h2>
 
       <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=vf59xyjgxn48ibyemdd9z3bljo7vnd99c667lokvdam3ykfi"></script>
   		<script>tinymce.init({ selector:'textarea' });</script>
@@ -22,12 +22,6 @@ include('./view/template/headerAdmin.php');
         </div>  
       </div>
       <button class="button is-link" type="submit">Modifier</button>
-
-      	<!--<input type="text" name="title" placeholder="Titre" value="<?= strip_tags($initialArticle['title']) ?>" /><br />
-
-      	<textarea name="content" name="content" placeholder="Contenu de l'article"><?= nl2br(strip_tags($initialArticle['content'])); ?></textarea>
-
-      	<input type="submit" value="Modifier l'article" />-->
 		</form>
   </div>
 </section>

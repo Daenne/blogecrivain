@@ -23,7 +23,7 @@ class Model extends Connexion {
         //CREATE
 
     public function postArticle($title, $content){
-        $article = $this->db->prepare('INSERT INTO articles(title, content, date_create, date_update) VALUES (?, ?, NOW(), NOW())');
+        $article = $this->db->prepare('INSERT INTO articles(title, content, date_create) VALUES (?, ?, NOW())');
         $newArticle = $article->execute(array($title, $content));
         return $newArticle;
     }
@@ -45,7 +45,7 @@ class Model extends Connexion {
         //UPDATE
 
     public function updateArticle ($id, $title, $content) {
-        $request = $this->db->prepare('UPDATE articles SET title = ?, content = ?, date_update = NOW() WHERE id =' . $id);
+        $request = $this->db->prepare('UPDATE articles SET title = ?, content = ? WHERE id =' . $id);
         $updateArticle = $request->execute(array($title, $content));
         return $updateArticle;
     }    
@@ -63,7 +63,7 @@ class Model extends Connexion {
         //CREATE
 
     public function getAllComments(){
-        $sql = 'SELECT * FROM comments ORDER BY warning DESC';
+        $sql = 'SELECT * FROM comments WHERE warning = 1 ORDER BY warning DESC';
         $request = $this->db->query($sql);
         return $request;
     }
@@ -76,7 +76,7 @@ class Model extends Connexion {
         //READ
 
     public function postComment($articleid, $author, $content) {
-        $comments = $this->db->prepare('INSERT INTO comments(articleid, author, content, date_create, date_update, warning) VALUES (?, ?, ?, NOW(), NOW(), 0)');
+        $comments = $this->db->prepare('INSERT INTO comments(articleid, author, content, date_create, warning) VALUES (?, ?, ?, NOW(), 0)');
         $affectedLines = $comments->execute(array($articleid, $author, $content));
         return $affectedLines;
     }
@@ -84,6 +84,13 @@ class Model extends Connexion {
 
     public function warningComment($id){
         $request = $this->db->prepare('UPDATE comments SET warning = 1 WHERE id =' . $id);
+        $updateComment = $request->execute();
+        return $updateComment;
+    }
+
+    public function validComment($id){
+        $request = $this->db->prepare('UPDATE comments SET warning = 0 WHERE id =:id');
+        $request->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $updateComment = $request->execute();
         return $updateComment;
     }    

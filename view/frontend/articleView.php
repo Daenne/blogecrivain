@@ -1,5 +1,5 @@
 <?php include('./view/template/header.php'); ?>
-  <section class="section">
+<section class="section">
   <div class="container">
       <div class="tile is-vertical box">
         <h2 class="title is-2">
@@ -34,22 +34,18 @@
           <?php
           }
           ?>      
-
-
-
       </div>
       <br/>
       <div class="tile is-vertical">
-      
-<h3 class="title is-3">Ajouter un commentaire : </h3>
+        <h3 class="title is-3">Ajouter un commentaire : </h3>
 
-          <form action="index.php?action=addComment&amp;id=<?= $article['id']; ?>" method ="post">
+        <form action="index.php?action=addComment&amp;id=<?= $article['id']; ?>" method ="post">
             <div class="field">
               <label for="author" class="label">Pseudo</label>
               <div class="control">
                 <input class="input is-link" name="author" type="text" placeholder="Exemple : Jean Forteroche">
               </div>
-              <p class="help">Entrez un pseudo</p>
+                <p class="help">Entrez un pseudo</p>
             </div>
             <div class="field">
               <label class="label" for="content">Message</label>
@@ -59,25 +55,9 @@
             </div>
             <p><button class="button is-link" type="submit">Envoyer</button></p>
           </form>
-
       </div>
-
-        
-          
-
-
-          
-
-          <!--<form action="index.php?action=addComment&amp;id=<?= $article['id']; ?>" method ="post">
-            <p><label for="author">Pseudo : </label></p>
-            <input type="text" name="author" id="author" />
-            <p><label for="content">Commentaire : </label></p>
-            <textarea name="content" id="content"></textarea>
-            <p><button class="button is-link" type="submit">Envoyer</button></p>
-          </form> -->
-      
-      </div>
-    </section>
+  </div>
+</section>
 <?php include('./view/template/footer.php'); ?>  
 
 

@@ -79,7 +79,7 @@ try {
       {
         if(isset($_GET["id"]) && $_GET["id"] > 0) 
         {
-          $controller->changeComment($_GET['id']);
+          $controller->signaledComment($_GET['id']);
         }
         else 
         {
@@ -201,6 +201,26 @@ try {
         }
       }
 
+      //Way to valid a comment
+      elseif ($_GET['action'] == 'validComment')
+      {
+        if(isset($_SESSION['authentification']))
+        {
+          if(isset($_GET["id"]) && $_GET["id"] > 0) 
+          {
+            $controller->isNotSignaledComment($_GET['id']);
+          }
+          else 
+          {
+            throw new Exception("<p>Ce commentaire n'a pas pu être validé. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>"); 
+          }
+        }
+        else 
+        {
+          throw new Exception("<p>Vous n'avez pas les accès nécessaires. Retour à la page d'accueil <a href=\"index.php?action=blog\">ici</a></p>");
+        }
+      }
+      
       //Way to delete a comment
       elseif($_GET['action'] == 'deleteComment')
       {
